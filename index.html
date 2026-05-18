@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Action4Water — AI-Powered Water Pollution Monitoring</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #0a2540;
+    --deep: #0d3b6e;
+    --blue: #1a6eb5;
+    --teal: #0ea5a0;
+    --sky: #38bdf8;
+    --lake: #2b83ba;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --white: #f8fafc;
+    --muted: #94a3b8;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ocean);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(10,37,64,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 20px;
+    color: var(--white);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .nav-logo span {
+    color: var(--sky);
+  }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--teal); color: white;
+    padding: 8px 20px; border-radius: 6px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,165,160,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(26,110,181,0.2) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(56,189,248,0.1) 0%, transparent 50%);
+  }
+
+  .hero-waves {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 200px; overflow: hidden;
+  }
+
+  .wave {
+    position: absolute; bottom: 0; left: -10%; width: 120%;
+    height: 100%; opacity: 0.15;
+    animation: wave 8s ease-in-out infinite;
+  }
+
+  .wave svg { width: 100%; height: 100%; }
+  .wave:nth-child(2) { animation-delay: -4s; animation-duration: 12s; opacity: 0.08; }
+  .wave:nth-child(3) { animation-delay: -2s; animation-duration: 10s; opacity: 0.06; }
+
+  @keyframes wave {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(-3%) translateY(-10px); }
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(14,165,160,0.15);
+    border: 1px solid rgba(14,165,160,0.3);
+    color: var(--teal); font-size: 13px; font-weight: 500;
+    padding: 6px 16px; border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--teal); border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 800; line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--sky), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: rgba(248,250,252,0.7);
+    max-width: 640px; line-height: 1.7;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--blue));
+    color: white; padding: 14px 28px;
+    border-radius: 8px; font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(14,165,160,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(14,165,160,0.4);
+  }
+
+  .btn-secondary {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--white); padding: 14px 28px;
+    border-radius: 8px; font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 72px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px; font-weight: 800;
+    background: linear-gradient(135deg, var(--sky), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── AWARDS ── */
+  .awards {
+    padding: 40px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; flex-wrap: wrap;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .awards-label {
+    font-size: 12px; font-weight: 500;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-right: 16px;
+  }
+
+  .award-tag {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    color: var(--amber); font-size: 13px; font-weight: 500;
+    padding: 8px 16px; border-radius: 6px;
+  }
+
+  .award-tag svg { width: 16px; height: 16px; }
+
+  /* ── SECTION ── */
+  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 12px; font-weight: 600;
+    color: var(--teal); text-transform: uppercase;
+    letter-spacing: 0.12em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .section-label::before {
+    content: ''; width: 24px; height: 2px; background: var(--teal);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700; line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 17px; color: rgba(248,250,252,0.65);
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+  }
+
+  .about-text p {
+    font-size: 16px; color: rgba(248,250,252,0.75);
+    line-height: 1.8; margin-bottom: 20px;
+  }
+
+  .about-pillars {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-top: 32px;
+  }
+
+  .pillar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+
+  .pillar-icon { font-size: 24px; margin-bottom: 10px; }
+
+  .pillar h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .pillar p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-card {
+    background: linear-gradient(135deg, rgba(26,110,181,0.2), rgba(14,165,160,0.1));
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px;
+    position: relative; overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(14,165,160,0.2), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .about-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700; margin-bottom: 20px;
+    color: var(--sky);
+  }
+
+  .mission-point {
+    display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
+  }
+
+  .mission-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal); margin-top: 6px; flex-shrink: 0;
+  }
+
+  .mission-point p { font-size: 14px; color: rgba(248,250,252,0.75); line-height: 1.6; }
+
+  /* ── TOOLS ── */
+  .tools-section { background: rgba(255,255,255,0.02); }
+
+  .tools-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(14,165,160,0.3);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+  }
+
+  .tool-card-header {
+    padding: 32px 32px 0;
+    position: relative;
+  }
+
+  .tool-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .tag-ocean { background: rgba(56,189,248,0.15); color: var(--sky); }
+  .tag-lake { background: rgba(14,165,160,0.15); color: var(--teal); }
+
+  .tool-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px; font-weight: 700;
+    margin-bottom: 12px; line-height: 1.2;
+  }
+
+  .tool-card p {
+    font-size: 14px; color: rgba(248,250,252,0.65);
+    line-height: 1.7; margin-bottom: 24px;
+  }
+
+  .tool-metrics {
+    display: flex; gap: 24px; margin-bottom: 28px;
+  }
+
+  .metric { text-align: center; }
+
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px; font-weight: 800;
+    color: var(--sky);
+  }
+
+  .metric-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .tool-features {
+    display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px;
+  }
+
+  .feature {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: rgba(248,250,252,0.7);
+  }
+
+  .feature::before {
+    content: '✓'; width: 18px; height: 18px;
+    background: rgba(34,197,94,0.15); color: var(--green);
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; flex-shrink: 0;
+  }
+
+  .tool-img {
+    width: 100%; height: 220px; object-fit: cover;
+    display: block;
+    border-top: 1px solid var(--border);
+  }
+
+  .tool-img-placeholder {
+    width: 100%; height: 220px;
+    background: linear-gradient(135deg, rgba(26,110,181,0.3), rgba(14,165,160,0.2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; border-top: 1px solid var(--border);
+  }
+
+  .tool-card-footer {
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 12px; align-items: center;
+  }
+
+  .btn-tool {
+    flex: 1; text-align: center;
+    background: linear-gradient(135deg, var(--teal), var(--blue));
+    color: white; padding: 12px 20px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-tool:hover { opacity: 0.85; }
+
+  .btn-tool-ghost {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 12px 20px;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-tool-ghost:hover { border-color: var(--white); color: var(--white); }
+
+  /* ── EDUCATION ── */
+  .edu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 16px;
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px;
+    transition: border-color 0.3s;
+  }
+
+  .edu-card:hover { border-color: rgba(56,189,248,0.3); }
+
+  .edu-icon {
+    font-size: 36px; margin-bottom: 16px;
+    display: block;
+  }
+
+  .edu-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .edu-card p {
+    font-size: 14px; color: rgba(248,250,252,0.65);
+    line-height: 1.7;
+  }
+
+  .edu-level {
+    display: inline-block;
+    margin-top: 16px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 4px 10px; border-radius: 4px;
+    background: rgba(56,189,248,0.1); color: var(--sky);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute; top: 28px; left: 10%; right: 10%;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  }
+
+  .step { text-align: center; position: relative; }
+
+  .step-num {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--deep), var(--blue));
+    border: 2px solid var(--teal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800;
+    color: var(--sky);
+    margin: 0 auto 20px;
+    position: relative; z-index: 1;
+  }
+
+  .step h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── IMPACT ── */
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .impact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px;
+    text-align: center;
+  }
+
+  .impact-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px; font-weight: 800;
+    background: linear-gradient(135deg, var(--sky), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .impact-label { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: linear-gradient(135deg, rgba(26,110,181,0.15), rgba(14,165,160,0.1));
+    border: 1px solid var(--border);
+    border-radius: 24px; padding: 72px 48px;
+    text-align: center; margin: 0 48px 100px;
+    position: relative; overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(14,165,160,0.2), transparent 70%);
+  }
+
+  .contact-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700; margin-bottom: 16px;
+    position: relative;
+  }
+
+  .contact-section p {
+    font-size: 17px; color: rgba(248,250,252,0.65);
+    max-width: 520px; margin: 0 auto 40px;
+    line-height: 1.7; position: relative;
+  }
+
+  .contact-btns {
+    display: flex; gap: 16px; justify-content: center;
+    flex-wrap: wrap; position: relative;
+  }
+
+  .contact-email {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); padding: 14px 24px;
+    border-radius: 8px; font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    color: var(--muted); font-size: 13px;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; color: var(--white);
+  }
+
+  .footer-logo span { color: var(--sky); }
+
+  /* ── FULL-WIDTH SECTIONS ── */
+  .full-section {
+    background: rgba(255,255,255,0.015);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .about-grid, .tools-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .impact-grid { grid-template-columns: 1fr 1fr; }
+    .contact-section { margin: 0 24px 72px; padding: 48px 24px; }
+    footer { padding: 32px 24px; }
+    .steps::before { display: none; }
+    .hero-stats { gap: 32px; }
+  }
+
+  @media (max-width: 600px) {
+    .edu-grid, .steps, .impact-grid { grid-template-columns: 1fr; }
+    .about-pillars { grid-template-columns: 1fr; }
+    .awards { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Action<span>4</span>Water</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tools">Our Tools</a></li>
+    <li><a href="#education">Learn</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#tools" class="nav-cta">Explore Tools</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-badge">AI-Powered Water Pollution Monitoring</div>
+
+  <h1>Protecting Water<br>from Space with <em>AI</em></h1>
+
+  <p class="hero-sub">
+    From ocean plastic to lake algae — we use satellite imagery and machine learning 
+    to detect water pollution, and communicate the science through data to empower 
+    communities, inform decisions, and inspire action.
+  </p>
+
+  <div class="hero-btns">
+    <a href="#tools" class="btn-primary">Explore Our Tools →</a>
+    <a href="#education" class="btn-secondary">Learn How It Works</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">92%</div>
+      <div class="stat-label">Ocean Plastic Detection Accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">AI-Powered Monitoring Tools</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">For Communities & Schools</div>
+    </div>
+  </div>
+
+  <div class="hero-waves">
+    <div class="wave">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path d="M0,50 C360,100 720,0 1080,50 C1260,75 1380,60 1440,50 L1440,100 L0,100 Z" fill="#0ea5a0"/>
+      </svg>
+    </div>
+    <div class="wave">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path d="M0,60 C240,20 480,80 720,60 C960,40 1200,80 1440,60 L1440,100 L0,100 Z" fill="#38bdf8"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- AWARDS -->
+<div class="awards">
+  <span class="awards-label">Recognized by</span>
+  <div class="award-tag">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Top Climate Change & Environment Project
+  </div>
+  <div class="award-tag">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Most Innovative & Outstanding Project
+  </div>
+  <div class="award-tag">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    CMOS 2025 Special Award
+  </div>
+  <div class="award-tag">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Honeywell Aerospace Innovation 2025
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-label">About Us</div>
+      <h2 class="section-title">Science That Serves Communities</h2>
+      <p>
+        Access to clean, reliable water is one of the most critical challenges
+        facing communities worldwide. At Action4Water, we bridge cutting-edge
+        AI innovation with real-world impact.
+      </p>
+      <p>
+        We develop satellite-based AI tools for water pollution monitoring —
+        making advanced science accessible to researchers, governments,
+        educators, and concerned citizens alike.
+      </p>
+      <p>
+        At Action4Water, we believe that science only creates change when it is 
+        clearly communicated. We don't just collect data — we translate it into 
+        stories, maps, and tools that move people to act.
+      </p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🛰️</div>
+          <h4>Satellite Data</h4>
+          <p>Free Sentinel-2 imagery covering the entire globe.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🤖</div>
+          <h4>Machine Learning</h4>
+          <p>Trained AI models for accurate pollution detection.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🌍</div>
+          <h4>Open Access</h4>
+          <p>Free tools for communities, schools, and researchers.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📊</div>
+          <h4>Actionable Data</h4>
+          <p>Scientific results in formats anyone can understand.</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal reveal-delay-2">
+      <div class="about-card">
+        <div class="about-card-title">Our Mission</div>
+        <div class="mission-point">
+          <div class="mission-dot"></div>
+          <p>Empower communities with real-time water quality data to make informed decisions about water safety.</p>
+        </div>
+        <div class="mission-point">
+          <div class="mission-dot"></div>
+          <p>Support governments and resource managers with large-scale pollution monitoring tools.</p>
+        </div>
+        <div class="mission-point">
+          <div class="mission-dot"></div>
+          <p>Educate students and the public about water pollution and the role of AI in environmental protection.</p>
+        </div>
+        <div class="mission-point">
+          <div class="mission-dot"></div>
+          <p>Drive innovation in environmental monitoring by transforming satellite data into practical solutions.</p>
+        </div>
+        <a href="mailto:contact@action4water.org" style="display:inline-block;margin-top:24px;background:rgba(14,165,160,0.15);border:1px solid rgba(14,165,160,0.3);color:var(--teal);padding:10px 20px;border-radius:6px;font-size:14px;text-decoration:none;">
+          Contact us for free solutions →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<div class="full-section" id="tools">
+<section style="max-width:1200px;margin:0 auto;">
+  <div class="section-label reveal">Our Tools</div>
+  <h2 class="section-title reveal">Two Tools, One Mission</h2>
+  <p class="section-sub reveal">Both tools use the same approach — free Sentinel-2 satellite imagery combined with machine learning — to detect different types of water pollution.</p>
+
+  <div class="tools-grid">
+
+    <!-- Lake Water Quality Tool -->
+    <div class="tool-card reveal">
+      <div class="tool-card-header">
+        <div class="tool-tag tag-lake">🔬 Lakes</div>
+        <h3>Northern Lakes Monitor</h3>
+        <p>
+          Estimates chlorophyll-a (algae) levels in lakes across Canada's North
+          using Sentinel-2 imagery and a Random Forest model — detecting
+          harmful algal blooms before they become dangerous.
+        </p>
+        <div class="tool-metrics">
+          <div class="metric">
+            <div class="metric-val">4</div>
+            <div class="metric-label">Severity Levels</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val">10m</div>
+            <div class="metric-label">Spatial Resolution</div>
+          </div>
+        </div>
+        <div class="tool-features">
+          <div class="feature">Real-time lake health monitoring</div>
+          <div class="feature">Harmful algal bloom (HAB) detection</div>
+          <div class="feature">No water sampling required</div>
+          <div class="feature">Export maps for research & reporting</div>
+        </div>
+      </div>
+      <img src="https://i.imgur.com/Bsv4Pn3.png" alt="Northern Lakes Monitor" class="tool-img">
+      <div class="tool-card-footer">
+        <a href="https://lake-brib.onrender.com" target="_blank" class="btn-tool">Try the Tool →</a>
+        <a href="#education" class="btn-tool-ghost">How It Works</a>
+      </div>
+    </div>
+
+    <!-- Ocean Plastic Tool -->
+    <div class="tool-card reveal reveal-delay-2">
+      <div class="tool-card-header">
+        <div class="tool-tag tag-ocean">🌊 Ocean</div>
+        <h3>Ocean Floating Plastic Detection</h3>
+        <p>
+          Detects ocean floating plastic debris across large areas using
+          Sentinel-2 satellite imagery and a machine learning classifier —
+          covering areas impossible to monitor by boat alone.
+        </p>
+        <div class="tool-metrics">
+          <div class="metric">
+            <div class="metric-val">92%</div>
+            <div class="metric-label">Detection Accuracy</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val">Free</div>
+            <div class="metric-label">On Request</div>
+          </div>
+        </div>
+        <div class="tool-features">
+          <div class="feature">Large-scale ocean coverage via satellite</div>
+          <div class="feature">Automated AI-powered detection</div>
+          <div class="feature">Supports cleanup planning & policy</div>
+          <div class="feature">Protects marine biodiversity</div>
+        </div>
+        <div style='margin-top:16px;padding:12px 16px;background:rgba(245,158,11,0.08);
+        border-left:3px solid var(--amber);border-radius:6px;
+        font-size:13px;color:rgba(248,250,252,0.7);line-height:1.6;'>
+        🔧 <b style='color:var(--amber);'>Tool in development.</b>
+        We provide this service free of charge for communities and organizations
+        upon request — contact us to get started.
+        </div>
+      </div>
+      <div class="tool-img-placeholder">🌊</div>
+      <div class="tool-card-footer">
+        <a href="mailto:contact@action4water.org" class="btn-tool">Request Free Service</a>
+        <a href="#contact" class="btn-tool-ghost">Learn More</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks">
+  <div class="section-label reveal">How It Works</div>
+  <h2 class="section-title reveal">From Satellite to Insight</h2>
+  <p class="section-sub reveal">Our tools follow a four-step process to turn raw satellite data into actionable water quality information.</p>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <h4>Satellite Capture</h4>
+      <p>Sentinel-2 satellites orbit Earth every 5 days, capturing free high-resolution images of oceans and lakes.</p>
+    </div>
+    <div class="step reveal reveal-delay-1">
+      <div class="step-num">2</div>
+      <h4>Image Processing</h4>
+      <p>Raw satellite bands are processed using Google Earth Engine to calculate water quality indices.</p>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <div class="step-num">3</div>
+      <h4>AI Analysis</h4>
+      <p>Our machine learning models analyze spectral signatures to detect plastic or estimate algae levels.</p>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <div class="step-num">4</div>
+      <h4>Results & Action</h4>
+      <p>Color-coded maps show pollution levels clearly — for scientists, governments, and the public.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<div class="full-section" id="education">
+<section style="max-width:1200px;margin:0 auto;">
+  <div class="section-label reveal">Education</div>
+  <h2 class="section-title reveal">Learning About Water Pollution</h2>
+  <p class="section-sub reveal">Understanding water pollution is the first step to protecting it. Here are the key concepts behind our tools, explained for all ages.</p>
+
+  <!-- Ocean Section -->
+  <div style="margin-bottom:56px;">
+    <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
+    color:var(--sky);margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+    🌊 Ocean — Plastic Pollution</h3>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <span class="edu-icon">🌊</span>
+        <h3>What Is Ocean Plastic Pollution?</h3>
+        <p>Millions of tonnes of plastic enter the ocean every year. Much of it breaks into tiny pieces called microplastics, harming marine life, entering the food chain, and persisting for hundreds of years.</p>
+        <span class="edu-level">Grades 4–6</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <span class="edu-icon">🐟</span>
+        <h3>How Does Plastic Harm Marine Life?</h3>
+        <p>Sea turtles mistake plastic bags for jellyfish. Seabirds feed plastic to their chicks. Fish absorb microplastics into their tissue. Plastic pollution disrupts entire marine ecosystems and the communities that depend on them.</p>
+        <span class="edu-level">Grades 5–8</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <span class="edu-icon">🛰️</span>
+        <h3>How Do Satellites Detect Ocean Plastic?</h3>
+        <p>Plastic floating on the ocean surface reflects sunlight differently than water. Sentinel-2 satellites capture these spectral differences, and our AI model learns to distinguish plastic from seaweed, foam, and waves.</p>
+        <span class="edu-level">Grades 8–12</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lake Section -->
+  <div>
+    <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
+    color:var(--teal);margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+    🔬 Lakes — Algae & Water Quality</h3>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <span class="edu-icon">💧</span>
+        <h3>What Is Lake Water Quality?</h3>
+        <p>Lake water quality describes the physical, chemical, and biological characteristics that determine its safety for drinking, swimming, fishing, and supporting aquatic life. Good water quality is clean, clear, and safe.</p>
+        <span class="edu-level">Grades 4–6</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <span class="edu-icon">🟢</span>
+        <h3>What Is Chlorophyll-a?</h3>
+        <p>Chlorophyll-a is the green pigment in algae and plants. In lakes — and oceans — high levels mean too much algae is growing. These blooms can make water unsafe for swimming and harm fish and wildlife.</p>
+        <span class="edu-level">Grades 7–9</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <span class="edu-icon">🌿</span>
+        <h3>What Are Harmful Algal Blooms?</h3>
+        <p>Harmful Algal Blooms (HABs) occur when algae grow rapidly and dominate a water body. They produce toxins dangerous to humans, pets, and aquatic life — and are becoming more frequent due to climate change and nutrient runoff.</p>
+        <span class="edu-level">Grades 7–10</span>
+      </div>
+      <div class="edu-card reveal">
+        <span class="edu-icon">🤖</span>
+        <h3>How Does AI Measure Algae from Space?</h3>
+        <p>Algae reflect specific wavelengths of light detectable by satellites. Our Random Forest model analyzes these spectral signatures to estimate chlorophyll-a concentration — without anyone needing to collect a water sample.</p>
+        <span class="edu-level">Grades 9–12</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <span class="edu-icon">🌏</span>
+        <h3>Why Do Northern Lakes Matter?</h3>
+        <p>Canada's northern lakes are among the world's cleanest — but climate change is warming them faster than anywhere else. Rising temperatures fuel algal blooms, threatening drinking water and the communities and ecosystems that depend on these lakes.</p>
+        <span class="edu-level">All Ages</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <span class="edu-icon">📊</span>
+        <h3>What Can You Do With This Data?</h3>
+        <p>Satellite-derived water quality maps help communities monitor their lakes, help governments make informed policy decisions, and help researchers track long-term changes. Data communicated clearly drives real action.</p>
+        <span class="edu-level">All Ages</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-label reveal">Our Impact</div>
+  <h2 class="section-title reveal">Real-World Results</h2>
+  <p class="section-sub reveal">Our tools are being used by researchers, governments, and communities to protect water resources across Canada and beyond.</p>
+
+  <div class="impact-grid">
+    <div class="impact-card reveal">
+      <div class="impact-num">92%</div>
+      <div class="impact-label">Ocean plastic detection accuracy</div>
+    </div>
+    <div class="impact-card reveal reveal-delay-1">
+      <div class="impact-num">6yr</div>
+      <div class="impact-label">Time-series lake monitoring (2020–2025)</div>
+    </div>
+    <div class="impact-card reveal reveal-delay-2">
+      <div class="impact-num">4</div>
+      <div class="impact-label">International awards & recognitions</div>
+    </div>
+    <div class="impact-card reveal reveal-delay-3">
+      <div class="impact-num">Free</div>
+      <div class="impact-label">For all communities and schools</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <h2 class="reveal">Work With Us</h2>
+  <p class="reveal">
+    Whether you're a community leader, government agency, researcher, or teacher —
+    we want to hear from you. Our tools are free for communities and schools.
+  </p>
+  <div class="contact-btns reveal">
+    <a href="mailto:contact@action4water.org" class="btn-primary">
+      📧 contact@action4water.org
+    </a>
+    <div class="contact-email">
+      🔬 Data requests: lijh03@gmail.com
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Action<span>4</span>Water</div>
+  <div>Leveraging AI to protect water resources for communities worldwide.</div>
+  <div>© 2025 Action4Water. All rights reserved.</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
