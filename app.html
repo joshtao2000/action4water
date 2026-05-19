@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Northern Lakes">
+<title>Northern Lakes Monitor</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563EB">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2563EB;
+    --blue-dark: #1D4ED8;
+    --blue-light: #EFF6FF;
+    --blue-mid: #DBEAFE;
+    --teal: #0891B2;
+    --green: #16A34A;
+    --amber: #D97706;
+    --amber-light: #FEF3C7;
+    --red: #DC2626;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --white: #FFFFFF;
+    --safe-top: env(safe-area-inset-top, 44px);
+    --safe-bottom: env(safe-area-inset-bottom, 34px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Figtree', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    max-width: 390px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    background: var(--gray-50);
+    min-height: 100vh;
+    animation: slideIn 0.3s ease;
+  }
+
+  .screen.active { display: flex; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    height: 44px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 15px; font-weight: 600;
+    background: var(--white);
+    flex-shrink: 0;
+  }
+
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+
+  /* ── NAV BAR ── */
+  .nav-bar {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+    flex-shrink: 0;
+  }
+
+  .nav-title {
+    font-size: 22px; font-weight: 700;
+    color: var(--gray-900);
+  }
+
+  .nav-icon {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: var(--gray-100);
+    cursor: pointer;
+  }
+
+  /* ── TAB BAR ── */
+  .tab-bar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 390px;
+    display: flex;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    padding-bottom: var(--safe-bottom);
+    z-index: 100;
+  }
+
+  .tab-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 10px 0;
+    cursor: pointer; gap: 4px;
+    font-size: 11px; font-weight: 500;
+    color: var(--gray-400);
+    transition: color 0.2s;
+  }
+
+  .tab-item.active { color: var(--blue); }
+
+  .tab-icon { font-size: 22px; line-height: 1; }
+
+  .tab-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue);
+    margin: 0 auto;
+  }
+
+  /* ── SCROLL CONTENT ── */
+  .scroll-content {
+    flex: 1; overflow-y: auto;
+    padding-bottom: calc(80px + var(--safe-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── LAUNCH SCREEN ── */
+  #screen-launch {
+    background: var(--white);
+    justify-content: space-between;
+    padding: 60px 32px 48px;
+  }
+
+  .launch-center {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px;
+  }
+
+  .app-icon {
+    width: 100px; height: 100px;
+    background: var(--blue);
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 8px 32px rgba(37,99,235,0.3);
+    animation: iconPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes iconPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .launch-title {
+    font-size: 28px; font-weight: 800;
+    color: var(--gray-900);
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  .launch-sub {
+    font-size: 16px; color: var(--gray-500);
+    text-align: center; line-height: 1.5;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+
+  .launch-bottom { width: 100%; animation: fadeUp 0.5s 0.4s ease both; }
+
+  .warning-box {
+    background: var(--amber-light);
+    border-radius: 16px; padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .warning-title {
+    font-size: 15px; font-weight: 700;
+    color: var(--amber); margin-bottom: 4px;
+  }
+
+  .warning-text { font-size: 14px; color: var(--gray-700); line-height: 1.5; }
+
+  .btn-primary {
+    width: 100%; padding: 18px;
+    background: var(--blue); color: var(--white);
+    border: none; border-radius: 16px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 17px; font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+  }
+
+  .btn-primary:active { transform: scale(0.98); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MAP SCREEN ── */
+  .search-bar {
+    margin: 12px 16px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 16px; color: var(--gray-400);
+  }
+
+  .map-container {
+    margin: 0 16px;
+    background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 30%, #E0FDF4 70%, #DCFCE7 100%);
+    border-radius: 20px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+
+  .map-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(148,163,184,0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.2) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .map-blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  .blob-1 {
+    width: 180px; height: 140px;
+    background: #93C5FD;
+    top: 20px; left: 60px;
+    border-radius: 60% 40% 50% 50%;
+  }
+
+  .blob-2 {
+    width: 120px; height: 90px;
+    background: #6EE7B7;
+    bottom: 60px; right: 20px;
+    border-radius: 40% 60% 50% 50%;
+  }
+
+  .blob-3 {
+    width: 100px; height: 80px;
+    background: #BAE6FD;
+    bottom: 20px; left: 30px;
+    border-radius: 50% 40% 60% 40%;
+  }
+
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 20px;
+    opacity: 0.9;
+  }
+
+  .cloud-1 { width: 60px; height: 20px; top: 40px; right: 40px; }
+  .cloud-2 { width: 45px; height: 16px; top: 80px; left: 20px; }
+
+  .map-layer-tabs {
+    position: absolute; bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px;
+    background: rgba(0,0,0,0.7);
+    padding: 4px; border-radius: 100px;
+  }
+
+  .layer-tab {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .layer-tab.active {
+    background: var(--white);
+    color: var(--gray-900);
+  }
+
+  .scan-setup {
+    margin: 12px 16px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .scan-setup-title {
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .scan-fields {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 16px;
+  }
+
+  .scan-field {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px; padding: 12px;
+  }
+
+  .scan-field-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--gray-400); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+
+  .scan-field-value {
+    font-size: 15px; font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  .scan-btns { display: flex; gap: 12px; }
+
+  .btn-secondary {
+    flex: 1; padding: 14px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-300);
+    border-radius: 12px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-secondary:active { background: var(--gray-100); }
+
+  .btn-blue {
+    flex: 1; padding: 14px;
+    background: var(--blue); color: var(--white);
+    border: none; border-radius: 12px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+  }
+
+  /* ── DRAW AREA SCREEN ── */
+  #screen-draw {
+    background: var(--white);
+  }
+
+  .draw-nav {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .draw-nav-cancel { font-size: 16px; color: var(--gray-500); cursor: pointer; }
+  .draw-nav-title { font-size: 18px; font-weight: 700; }
+  .draw-nav-done { font-size: 16px; color: var(--blue); font-weight: 600; cursor: pointer; }
+
+  .draw-map {
+    flex: 1;
+    background: linear-gradient(135deg, #E0F2FE, #DCFCE7);
+    position: relative; overflow: hidden;
+  }
+
+  .draw-instruction {
+    position: absolute; top: 16px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--white);
+    border-radius: 12px; padding: 10px 20px;
+    font-size: 14px; color: var(--gray-700);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    white-space: nowrap;
+  }
+
+  .draw-polygon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px; height: 130px;
+    border: 2.5px solid #1E3A8A;
+    border-radius: 4px;
+  }
+
+  .draw-handle {
+    position: absolute;
+    width: 12px; height: 12px;
+    background: var(--white);
+    border: 2px solid #1E3A8A;
+    border-radius: 3px;
+  }
+
+  .handle-tl { top: -6px; left: -6px; }
+  .handle-tr { top: -6px; right: -6px; }
+  .handle-bl { bottom: -6px; left: -6px; }
+  .handle-br { bottom: -6px; right: -6px; }
+
+  .draw-panel {
+    background: var(--white);
+    border-radius: 24px 24px 0 0;
+    padding: 20px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  }
+
+  .draw-panel-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 20px;
+  }
+
+  .draw-panel-title { font-size: 20px; font-weight: 700; }
+
+  .badge {
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 100px;
+  }
+
+  .draw-area-size { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+
+  .draw-btns { display: flex; gap: 12px; }
+
+  .btn-danger {
+    flex: 1; padding: 14px;
+    background: var(--white);
+    border: 1.5px solid #FECACA;
+    border-radius: 12px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--red); cursor: pointer;
+  }
+
+  /* ── SETTINGS SCREEN ── */
+  #screen-settings {
+    background: var(--white);
+  }
+
+  .settings-map {
+    height: 260px;
+    background: linear-gradient(135deg, #E0F2FE, #DCFCE7);
+    position: relative; overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .settings-polygon {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px; height: 110px;
+    border: 2.5px solid #1E3A8A;
+    border-radius: 4px;
+  }
+
+  .settings-panel {
+    background: var(--white);
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px;
+    margin-top: -24px;
+    flex: 1;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  }
+
+  .settings-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+
+  .settings-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .settings-row:last-of-type { border-bottom: none; }
+
+  .settings-label { font-size: 16px; color: var(--gray-700); }
+  .settings-value { font-size: 16px; font-weight: 600; color: var(--gray-900); }
+
+  .settings-section { font-size: 18px; font-weight: 700; margin: 20px 0 8px; }
+
+  .toggle {
+    width: 51px; height: 31px;
+    background: var(--blue);
+    border-radius: 100px; position: relative;
+    cursor: pointer; transition: background 0.2s;
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 27px; height: 27px;
+    background: white;
+    border-radius: 50%;
+    top: 2px; right: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+  }
+
+  .toggle.off { background: var(--gray-300); }
+  .toggle.off::after { transform: translateX(-20px); }
+
+  /* ── LOADING SCREEN ── */
+  #screen-loading {
+    background: var(--gray-50);
+    align-items: center; justify-content: center;
+    padding: 48px 32px;
+  }
+
+  .loading-icon {
+    width: 100px; height: 100px;
+    background: var(--blue-light);
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; margin-bottom: 24px;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .loading-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .loading-sub { font-size: 15px; color: var(--gray-500); text-align: center; margin-bottom: 48px; }
+
+  .loading-steps { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+
+  .loading-step {
+    background: var(--white);
+    border-radius: 14px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    font-size: 16px; font-weight: 500;
+    color: var(--gray-700);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .step-check {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+  }
+
+  .step-check.done { background: #DCFCE7; color: var(--green); }
+  .step-check.active {
+    background: var(--blue-light); color: var(--blue);
+    animation: spinDot 1s linear infinite;
+  }
+  .step-check.pending { background: var(--gray-100); color: var(--gray-300); }
+
+  @keyframes spinDot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESULTS SCREEN ── */
+  .results-map {
+    margin: 12px 16px;
+    height: 280px;
+    background: linear-gradient(135deg, #E0F2FE, #FEF9C3, #DCFCE7);
+    border-radius: 20px;
+    position: relative; overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+
+  .result-blob-1 {
+    position: absolute;
+    width: 140px; height: 100px;
+    background: #FDE047;
+    top: 30px; left: 60px;
+    border-radius: 50% 40% 50% 40%;
+    opacity: 0.8;
+  }
+
+  .result-blob-2 {
+    position: absolute;
+    width: 100px; height: 70px;
+    background: #EF4444;
+    bottom: 60px; right: 40px;
+    border-radius: 40% 50% 40% 50%;
+    opacity: 0.8;
+  }
+
+  .result-blob-3 {
+    position: absolute;
+    width: 80px; height: 60px;
+    background: #F97316;
+    bottom: 50px; right: 80px;
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+
+  .result-aoi {
+    position: absolute;
+    top: 20px; left: 40px;
+    width: 180px; height: 150px;
+    border: 2px solid #1E3A8A;
+    border-radius: 4px;
+  }
+
+  .results-card {
+    margin: 0 16px 12px;
+    background: var(--white);
+    border-radius: 20px; padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .results-card-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 4px;
+  }
+
+  .results-card-title { font-size: 18px; font-weight: 700; }
+
+  .badge-green {
+    background: #DCFCE7; color: var(--green);
+    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 100px;
+  }
+
+  .results-range { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
+
+  .chla-scale {
+    height: 10px; border-radius: 100px;
+    background: linear-gradient(90deg, #1D4ED8, #0EA5E9, #22C55E, #EAB308, #EF4444);
+    margin-bottom: 8px;
+  }
+
+  .chla-labels {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--gray-500); margin-bottom: 16px;
+  }
+
+  .results-warning {
+    background: var(--amber-light);
+    border-radius: 12px; padding: 12px 16px;
+    font-size: 13px; color: var(--gray-700);
+    line-height: 1.5; margin-bottom: 16px;
+  }
+
+  .results-btns { display: flex; gap: 12px; }
+
+  .btn-outline {
+    flex: 1; padding: 14px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-300);
+    border-radius: 12px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--gray-700); cursor: pointer;
+  }
+
+  /* ── SAVED SCREEN ── */
+  .saved-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .saved-card {
+    background: var(--white);
+    border-radius: 16px; padding: 18px 20px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .saved-card-info { flex: 1; }
+
+  .saved-card-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .saved-card-meta { font-size: 13px; color: var(--gray-500); margin-bottom: 6px; }
+  .saved-card-tag { font-size: 13px; color: var(--gray-700); }
+
+  .btn-open {
+    padding: 10px 18px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: 100px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--gray-900); cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .saved-info-box {
+    margin: 0 16px;
+    background: var(--blue-light);
+    border-radius: 16px; padding: 16px 20px;
+    font-size: 14px; color: var(--gray-700);
+    line-height: 1.6;
+  }
+
+  /* ── ABOUT SCREEN ── */
+  .about-hero {
+    background: var(--blue);
+    margin: 12px 16px;
+    border-radius: 20px; padding: 24px;
+    color: var(--white);
+  }
+
+  .about-hero-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .about-hero-sub { font-size: 14px; opacity: 0.85; line-height: 1.5; }
+
+  .about-list { padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .about-card {
+    background: var(--white);
+    border-radius: 16px; padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .about-card-icon {
+    width: 44px; height: 44px;
+    background: var(--blue-light);
+    border-radius: 12px;
+    display: flex; align-items: center;
+    justify-content: center; font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .about-card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .about-card-text { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
+
+  /* ── LEGEND ── */
+  .legend {
+    position: absolute; bottom: 12px; right: 12px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px; padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .legend-title { font-weight: 700; margin-bottom:6px; color: var(--gray-700); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; color: var(--gray-600); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- ── LAUNCH SCREEN ── -->
+<div id="screen-launch" class="screen active">
+  <div style="height:60px;"></div>
+  <div class="launch-center">
+    <div class="app-icon">💧</div>
+    <div class="launch-title">Action4Water</div>
+    <div class="launch-sub">Satellite water quality screening<br>for northern lakes and rivers.</div>
+  </div>
+  <div class="launch-bottom">
+    <div class="warning-box">
+      <div class="warning-title">Important limit</div>
+      <div class="warning-text">This app flags possible algal activity. It does not test drinking-water safety.</div>
+    </div>
+    <button class="btn-primary" onclick="showScreen('map')">Start Mapping</button>
+  </div>
+</div>
+
+<!-- ── MAP SCREEN ── -->
+<div id="screen-map" class="screen">
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="nav-title" style="font-size:18px;">Action4Water</div>
+    <div class="nav-icon">📡</div>
+  </div>
+
+  <div class="scroll-content">
+    <div class="search-bar">
+      🔍 <span>Search lake or area</span>
+    </div>
+
+    <div class="map-container">
+      <div class="map-grid"></div>
+      <div class="map-blob blob-1"></div>
+      <div class="map-blob blob-2"></div>
+      <div class="map-blob blob-3"></div>
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="map-layer-tabs">
+        <div class="layer-tab active">RGB</div>
+        <div class="layer-tab">Chl-a</div>
+        <div class="layer-tab">AOI</div>
+      </div>
+    </div>
+
+    <div class="scan-setup">
+      <div class="scan-setup-title">Scan setup</div>
+      <div class="scan-fields">
+        <div class="scan-field">
+          <div class="scan-field-label">Area</div>
+          <div class="scan-field-value">None</div>
+        </div>
+        <div class="scan-field">
+          <div class="scan-field-label">Date</div>
+          <div class="scan-field-value">Jun 15</div>
+        </div>
+      </div>
+      <div class="scan-btns">
+        <button class="btn-secondary" onclick="showScreen('draw')">Draw Area</button>
+        <button class="btn-blue" onclick="showScreen('loading')">Run Scan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-item active" onclick="showScreen('map')">
+      <div class="tab-icon">🗺️</div>
+      <span>Map</span>
+      <div class="tab-dot"></div>
+    </div>
+    <div class="tab-item" onclick="showScreen('results')">
+      <div class="tab-icon">📊</div>
+      <span>Results</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('saved')">
+      <div class="tab-icon">🔖</div>
+      <span>Saved</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('about')">
+      <div class="tab-icon">ℹ️</div>
+      <span>About</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── DRAW AREA SCREEN ── -->
+<div id="screen-draw" class="screen">
+  <div class="status-bar" style="background:var(--white);">
+    <span>9:41</span><span></span><span>···</span>
+  </div>
+  <div class="draw-nav">
+    <span class="draw-nav-cancel" onclick="showScreen('map')">Cancel</span>
+    <span class="draw-nav-title">Draw Area</span>
+    <span class="draw-nav-done" onclick="showScreen('settings')">Done</span>
+  </div>
+
+  <div class="draw-map" style="flex:1;">
+    <div class="map-grid" style="position:absolute;inset:0;background-image:linear-gradient(rgba(148,163,184,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.2) 1px,transparent 1px);background-size:30px 30px;"></div>
+    <div class="map-blob blob-1" style="opacity:0.4;"></div>
+    <div class="map-blob blob-2" style="opacity:0.4;"></div>
+    <div class="draw-instruction">Tap points to outline the lake or area.</div>
+    <div class="draw-polygon">
+      <div class="draw-handle handle-tl"></div>
+      <div class="draw-handle handle-tr"></div>
+      <div class="draw-handle handle-bl"></div>
+      <div class="draw-handle handle-br"></div>
+    </div>
+  </div>
+
+  <div class="draw-panel">
+    <div class="draw-panel-header">
+      <div class="draw-panel-title">Area selected</div>
+      <div class="badge">Polygon</div>
+    </div>
+    <div class="draw-area-size">4.2 km² estimate</div>
+    <div class="draw-btns">
+      <button class="btn-secondary">Undo</button>
+      <button class="btn-danger">Clear</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SETTINGS SCREEN ── -->
+<div id="screen-settings" class="screen">
+  <div class="status-bar" style="background:transparent;position:absolute;top:0;left:0;right:0;z-index:10;">
+    <span>9:41</span><span></span><span>···</span>
+  </div>
+
+  <div class="settings-map">
+    <div class="map-grid" style="position:absolute;inset:0;background-image:linear-gradient(rgba(148,163,184,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.2) 1px,transparent 1px);background-size:30px 30px;"></div>
+    <div class="map-blob blob-1" style="opacity:0.4;"></div>
+    <div class="settings-polygon">
+      <div class="draw-handle handle-tl"></div>
+      <div class="draw-handle handle-tr"></div>
+      <div class="draw-handle handle-bl"></div>
+      <div class="draw-handle handle-br"></div>
+    </div>
+  </div>
+
+  <div class="settings-panel">
+    <div class="settings-title">Scan Settings</div>
+
+    <div class="settings-row">
+      <span class="settings-label">Date</span>
+      <span class="settings-value">Jun 15, 2024</span>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Image window</span>
+      <span class="settings-value">±10 days</span>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Max cloud cover</span>
+      <span class="settings-value">30%</span>
+    </div>
+
+    <div class="settings-section">Layers</div>
+
+    <div class="settings-row">
+      <span class="settings-label">Satellite image</span>
+      <div class="toggle"></div>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Chl-a estimate</span>
+      <div class="toggle"></div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:24px;" onclick="showScreen('loading')">Apply</button>
+  </div>
+</div>
+
+<!-- ── LOADING SCREEN ── -->
+<div id="screen-loading" class="screen">
+  <div class="loading-icon">🛰️</div>
+  <div class="loading-title">Running scan</div>
+  <div class="loading-sub">Checking satellite imagery and<br>preparing map layers.</div>
+
+  <div class="loading-steps">
+    <div class="loading-step">
+      <div class="step-check done">✓</div>
+      Checking Sentinel-2 scenes
+    </div>
+    <div class="loading-step">
+      <div class="step-check done">✓</div>
+      Removing cloud cover
+    </div>
+    <div class="loading-step">
+      <div class="step-check active">●</div>
+      Estimating Chl-a
+    </div>
+    <div class="loading-step">
+      <div class="step-check pending">○</div>
+      Preparing map layers
+    </div>
+  </div>
+
+  <button class="btn-primary" style="margin-top:48px;width:100%;" onclick="showScreen('results')">
+    View Results →
+  </button>
+</div>
+
+<!-- ── RESULTS SCREEN ── -->
+<div id="screen-results" class="screen">
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="nav-title" style="font-size:18px;">Results</div>
+    <span style="color:var(--blue);font-weight:600;font-size:15px;">Save</span>
+  </div>
+
+  <div class="scroll-content">
+    <div class="results-map">
+      <div class="map-grid" style="position:absolute;inset:0;background-image:linear-gradient(rgba(148,163,184,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.15) 1px,transparent 1px);background-size:30px 30px;"></div>
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2" style="top:60px;right:80px;"></div>
+      <div class="result-blob-1"></div>
+      <div class="result-blob-2"></div>
+      <div class="result-blob-3"></div>
+      <div class="result-aoi"></div>
+      <div class="map-layer-tabs">
+        <div class="layer-tab active">RGB</div>
+        <div class="layer-tab">Chl-a</div>
+        <div class="layer-tab">AOI</div>
+      </div>
+      <div class="legend">
+        <div class="legend-title">Algae Level</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#2166ac;"></div>Healthy</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#4dac26;"></div>Good</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f97b06;"></div>Warning</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#8B4513;"></div>Danger</div>
+      </div>
+    </div>
+
+    <div class="results-card">
+      <div class="results-card-header">
+        <div class="results-card-title">Chl-a estimate</div>
+        <div class="badge-green">5 scenes</div>
+      </div>
+      <div class="results-range">0–20 µg/L visual range</div>
+      <div class="chla-scale"></div>
+      <div class="chla-labels">
+        <span>Low</span><span>Medium</span><span>High</span>
+      </div>
+      <div class="results-warning">
+        Satellite screening only. Field testing is needed to confirm conditions.
+      </div>
+      <div class="results-btns">
+        <button class="btn-outline">Export</button>
+        <button class="btn-blue" onclick="showScreen('map')">New Scan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-item" onclick="showScreen('map')">
+      <div class="tab-icon">🗺️</div><span>Map</span>
+    </div>
+    <div class="tab-item active" onclick="showScreen('results')">
+      <div class="tab-icon">📊</div><span>Results</span>
+      <div class="tab-dot"></div>
+    </div>
+    <div class="tab-item" onclick="showScreen('saved')">
+      <div class="tab-icon">🔖</div><span>Saved</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('about')">
+      <div class="tab-icon">ℹ️</div><span>About</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── SAVED SCREEN ── -->
+<div id="screen-saved" class="screen">
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="nav-title" style="font-size:18px;">Saved Scans</div>
+    <span style="color:var(--blue);font-size:20px;">★</span>
+  </div>
+
+  <div class="scroll-content">
+    <div class="saved-list">
+      <div class="saved-card">
+        <div class="saved-card-info">
+          <div class="saved-card-name">Yellowknife Bay</div>
+          <div class="saved-card-meta">Jun 15, 2024 · 5 scenes</div>
+          <div class="saved-card-tag">Chl-a layer saved</div>
+        </div>
+        <button class="btn-open">Open</button>
+      </div>
+      <div class="saved-card">
+        <div class="saved-card-info">
+          <div class="saved-card-name">Great Slave Lake</div>
+          <div class="saved-card-meta">Aug 2, 2024 · 3 scenes</div>
+          <div class="saved-card-tag">Large AOI</div>
+        </div>
+        <button class="btn-open">Open</button>
+      </div>
+      <div class="saved-card">
+        <div class="saved-card-info">
+          <div class="saved-card-name">Mackenzie Delta</div>
+          <div class="saved-card-meta">Jul 20, 2024 · 7 scenes</div>
+          <div class="saved-card-tag">Cloud max 40%</div>
+        </div>
+        <button class="btn-open">Open</button>
+      </div>
+    </div>
+
+    <div class="saved-info-box" style="margin-top:16px;">
+      Saved scans store the area, date, and settings. The app can refresh map layers later.
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-item" onclick="showScreen('map')">
+      <div class="tab-icon">🗺️</div><span>Map</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('results')">
+      <div class="tab-icon">📊</div><span>Results</span>
+    </div>
+    <div class="tab-item active" onclick="showScreen('saved')">
+      <div class="tab-icon">🔖</div><span>Saved</span>
+      <div class="tab-dot"></div>
+    </div>
+    <div class="tab-item" onclick="showScreen('about')">
+      <div class="tab-icon">ℹ️</div><span>About</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT SCREEN ── -->
+<div id="screen-about" class="screen">
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="nav-title" style="font-size:18px;">About</div>
+    <div class="nav-icon">📡</div>
+  </div>
+
+  <div class="scroll-content">
+    <div class="about-hero">
+      <div class="about-hero-title">Action4Water</div>
+      <div class="about-hero-sub">A free satellite tool to help groups screen water areas for possible algal activity.</div>
+    </div>
+
+    <div class="about-list">
+      <div class="about-card">
+        <div class="about-card-icon">🛰️</div>
+        <div>
+          <div class="about-card-title">What it does</div>
+          <div class="about-card-text">Uses Sentinel-2 imagery to flag possible elevated algal activity in lakes and rivers.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">⚠️</div>
+        <div>
+          <div class="about-card-title">What it does not do</div>
+          <div class="about-card-text">It does not test drinking-water safety or replace field sampling and laboratory analysis.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📡</div>
+        <div>
+          <div class="about-card-title">Data source</div>
+          <div class="about-card-text">Satellite imagery processed through Google Earth Engine using Sentinel-2 SR data.</div>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">✉️</div>
+        <div>
+          <div class="about-card-title">Contact</div>
+          <div class="about-card-text">Email the project team for questions or community use: contact@action4water.org</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-item" onclick="showScreen('map')">
+      <div class="tab-icon">🗺️</div><span>Map</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('results')">
+      <div class="tab-icon">📊</div><span>Results</span>
+    </div>
+    <div class="tab-item" onclick="showScreen('saved')">
+      <div class="tab-icon">🔖</div><span>Saved</span>
+    </div>
+    <div class="tab-item active" onclick="showScreen('about')">
+      <div class="tab-icon">ℹ️</div><span>About</span>
+      <div class="tab-dot"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // Auto-advance loading screen
+  document.querySelector('#screen-loading .btn-primary').style.display = 'none';
+  setTimeout(() => {
+    document.querySelector('#screen-loading .btn-primary').style.display = 'block';
+  }, 2000);
+</script>
+
+</body>
+</html>
