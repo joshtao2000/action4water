@@ -2,7 +2,7 @@
   "name": "Northern Lakes Monitor",
   "short_name": "Lakes Monitor",
   "description": "Satellite water quality screening for northern lakes and rivers.",
-  "start_url": "/action4water/app.html",
+  "start_url": "/app.html",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#2563EB",
