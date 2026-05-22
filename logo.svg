@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 680 180" role="img">
+  <title>Action4Water logo</title>
+  <desc>Action4Water logo with transparent water drop containing teal number 4</desc>
+  <defs>
+    <radialGradient id="shineGrad" cx="35%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <text x="178" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="#0f1f2e" text-anchor="end">Action</text>
+  <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="rgba(100,200,240,0.15)" stroke="#0a9e96" stroke-width="1.5"/>
+  <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="url(#shineGrad)"/>
+  <ellipse cx="189" cy="58" rx="3" ry="5" fill="white" opacity="0.7"/>
+  <text x="200" y="110" font-family="Georgia,serif" font-size="62" font-weight="700" fill="#0a9e96" text-anchor="middle">4</text>
+  <text x="228" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="#0f1f2e" text-anchor="start">Water</text>
+</svg>

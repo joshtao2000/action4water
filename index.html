@@ -4,31 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Action4Water — AI-Powered Water Pollution Monitoring</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ocean: #0a2540;
-    --deep: #0d3b6e;
-    --blue: #1a6eb5;
-    --teal: #0ea5a0;
-    --sky: #38bdf8;
-    --lake: #2b83ba;
-    --green: #22c55e;
-    --amber: #f59e0b;
-    --white: #f8fafc;
-    --muted: #94a3b8;
-    --card: rgba(255,255,255,0.04);
-    --border: rgba(255,255,255,0.08);
+    --ink: #0f1f2e;
+    --ink-soft: #2d4a62;
+    --ink-muted: #64829a;
+    --teal: #0a9e96;
+    --teal-light: #e6f7f6;
+    --teal-mid: #b2e8e5;
+    --blue: #1a5fa8;
+    --blue-light: #e8f1fb;
+    --ocean: #0d3a5c;
+    --amber: #c47a00;
+    --amber-light: #fef6e4;
+    --green: #1a7a4a;
+    --green-light: #e6f5ed;
+    --white: #ffffff;
+    --off-white: #f7f9fb;
+    --gray-100: #f0f4f8;
+    --gray-200: #dde4ec;
+    --gray-300: #b8c6d4;
+    --gray-400: #8fa4b8;
+    --border: #dde4ec;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--ocean);
-    color: var(--white);
+    background: var(--white);
+    color: var(--ink);
     overflow-x: hidden;
   }
 
@@ -36,45 +43,42 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(10,37,64,0.85);
-    backdrop-filter: blur(16px);
+    padding: 16px 48px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
 
   .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 20px;
-    color: var(--white);
-    text-decoration: none;
-    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 20px;
+    color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
   }
 
-  .nav-logo span {
-    color: var(--sky);
-  }
+  .nav-logo-dot { color: var(--teal); }
 
   .nav-links {
-    display: flex; gap: 36px; list-style: none;
+    display: flex; gap: 32px; list-style: none;
   }
 
   .nav-links a {
-    color: var(--muted); text-decoration: none;
+    color: var(--ink-muted); text-decoration: none;
     font-size: 14px; font-weight: 500;
     transition: color 0.2s;
   }
 
-  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover { color: var(--ink); }
 
   .nav-cta {
     background: var(--teal); color: white;
-    padding: 8px 20px; border-radius: 6px;
+    padding: 9px 20px; border-radius: 6px;
     font-size: 14px; font-weight: 500;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: background 0.2s;
   }
 
-  .nav-cta:hover { opacity: 0.85; }
+  .nav-cta:hover { background: #088880; }
 
   /* ── HERO ── */
   .hero {
@@ -83,577 +87,507 @@
     align-items: center; justify-content: center;
     text-align: center;
     padding: 120px 48px 80px;
+    background: var(--off-white);
     position: relative;
     overflow: hidden;
   }
 
-  .hero-bg {
+  .hero::before {
+    content: '';
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,165,160,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(26,110,181,0.2) 0%, transparent 50%),
-      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(56,189,248,0.1) 0%, transparent 50%);
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(10,158,150,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 80%, rgba(26,95,168,0.06) 0%, transparent 50%);
   }
 
-  .hero-waves {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 200px; overflow: hidden;
-  }
-
-  .wave {
-    position: absolute; bottom: 0; left: -10%; width: 120%;
-    height: 100%; opacity: 0.15;
-    animation: wave 8s ease-in-out infinite;
-  }
-
-  .wave svg { width: 100%; height: 100%; }
-  .wave:nth-child(2) { animation-delay: -4s; animation-duration: 12s; opacity: 0.08; }
-  .wave:nth-child(3) { animation-delay: -2s; animation-duration: 10s; opacity: 0.06; }
-
-  @keyframes wave {
-    0%, 100% { transform: translateX(0) translateY(0); }
-    50% { transform: translateX(-3%) translateY(-10px); }
-  }
-
-  .hero-badge {
+  .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(14,165,160,0.15);
-    border: 1px solid rgba(14,165,160,0.3);
+    background: var(--teal-light);
+    border: 1px solid var(--teal-mid);
     color: var(--teal); font-size: 13px; font-weight: 500;
-    padding: 6px 16px; border-radius: 100px;
-    margin-bottom: 32px;
-    animation: fadeUp 0.8s ease both;
-  }
-
-  .hero-badge::before {
-    content: ''; width: 6px; height: 6px;
-    background: var(--teal); border-radius: 50%;
-    animation: pulse 2s ease infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
   }
 
   .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 5vw, 60px);
-    font-weight: 800; line-height: 1.05;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 700; line-height: 1.1;
+    color: var(--ink);
     margin-bottom: 24px;
-    animation: fadeUp 0.8s 0.1s ease both;
+    animation: fadeUp 0.6s 0.1s ease both;
   }
 
   .hero h1 em {
-    font-style: normal;
-    background: linear-gradient(135deg, var(--sky), var(--teal));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-style: italic;
+    color: var(--teal);
   }
 
   .hero-sub {
-    font-size: clamp(16px, 2vw, 20px);
-    color: rgba(248,250,252,0.7);
-    max-width: 640px; line-height: 1.7;
-    margin-bottom: 48px;
-    animation: fadeUp 0.8s 0.2s ease both;
+    font-size: clamp(16px, 1.8vw, 19px);
+    color: var(--ink-muted);
+    max-width: 600px; line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
   }
 
   .hero-btns {
-    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
-    animation: fadeUp 0.8s 0.3s ease both;
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, var(--teal), var(--blue));
-    color: white; padding: 14px 28px;
-    border-radius: 8px; font-size: 15px; font-weight: 500;
+    background: var(--teal); color: white;
+    padding: 13px 28px; border-radius: 8px;
+    font-size: 15px; font-weight: 500;
     text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 24px rgba(14,165,160,0.3);
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 2px 12px rgba(10,158,150,0.25);
   }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(14,165,160,0.4);
-  }
+  .btn-primary:hover { background: #088880; transform: translateY(-1px); }
 
   .btn-secondary {
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--white); padding: 14px 28px;
-    border-radius: 8px; font-size: 15px; font-weight: 500;
+    background: var(--white); color: var(--ink);
+    border: 1.5px solid var(--border);
+    padding: 13px 28px; border-radius: 8px;
+    font-size: 15px; font-weight: 500;
     text-decoration: none;
-    transition: background 0.2s, border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s;
   }
 
-  .btn-secondary:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.2);
-  }
+  .btn-secondary:hover { border-color: var(--gray-300); background: var(--gray-100); }
 
   .hero-stats {
-    display: flex; gap: 48px; margin-top: 72px; flex-wrap: wrap; justify-content: center;
-    animation: fadeUp 0.8s 0.4s ease both;
+    display: flex; gap: 56px; margin-top: 64px;
+    flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.4s ease both;
   }
 
   .stat { text-align: center; }
 
   .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 36px; font-weight: 800;
-    background: linear-gradient(135deg, var(--sky), var(--teal));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: 'Fraunces', serif;
+    font-size: 38px; font-weight: 700;
+    color: var(--teal);
   }
 
-  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .stat-label { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── AWARDS ── */
-  .awards {
-    padding: 40px 48px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    gap: 16px; flex-wrap: wrap;
-    background: rgba(255,255,255,0.02);
-  }
+  /* ── SECTIONS ── */
+  .section { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
 
-  .awards-label {
-    font-size: 12px; font-weight: 500;
-    color: var(--muted); text-transform: uppercase;
-    letter-spacing: 0.1em; margin-right: 16px;
-  }
-
-  .award-tag {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(245,158,11,0.1);
-    border: 1px solid rgba(245,158,11,0.2);
-    color: var(--amber); font-size: 13px; font-weight: 500;
-    padding: 8px 16px; border-radius: 6px;
-  }
-
-  .award-tag svg { width: 16px; height: 16px; }
-
-  /* ── SECTION ── */
-  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
-
-  .section-label {
-    font-size: 12px; font-weight: 600;
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600;
     color: var(--teal); text-transform: uppercase;
-    letter-spacing: 0.12em; margin-bottom: 16px;
+    letter-spacing: 0.12em; margin-bottom: 14px;
     display: flex; align-items: center; gap: 8px;
   }
 
-  .section-label::before {
-    content: ''; width: 24px; height: 2px; background: var(--teal);
+  .section-eyebrow::before {
+    content: ''; width: 20px; height: 2px; background: var(--teal);
   }
 
   .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700; line-height: 1.15;
-    margin-bottom: 16px;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 700; line-height: 1.2;
+    color: var(--ink); margin-bottom: 14px;
   }
 
   .section-sub {
-    font-size: 17px; color: rgba(248,250,252,0.65);
-    max-width: 560px; line-height: 1.7;
-    margin-bottom: 64px;
+    font-size: 16px; color: var(--ink-muted);
+    max-width: 520px; line-height: 1.7;
+    margin-bottom: 56px;
   }
 
   /* ── ABOUT ── */
+  .about-wrap { background: var(--white); }
+
   .about-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 64px; align-items: center;
+    gap: 80px; align-items: center;
   }
 
   .about-text p {
-    font-size: 16px; color: rgba(248,250,252,0.75);
-    line-height: 1.8; margin-bottom: 20px;
+    font-size: 15px; color: var(--ink-soft);
+    line-height: 1.8; margin-bottom: 18px;
   }
 
   .about-pillars {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 16px; margin-top: 32px;
+    gap: 14px; margin-top: 28px;
   }
 
   .pillar {
-    background: var(--card);
+    background: var(--off-white);
     border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px;
+    border-radius: 12px; padding: 18px;
   }
 
-  .pillar-icon { font-size: 24px; margin-bottom: 10px; }
+  .pillar-icon { font-size: 22px; margin-bottom: 8px; }
 
   .pillar h4 {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px; font-weight: 700;
-    margin-bottom: 6px;
+    font-family: 'Fraunces', serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink); margin-bottom: 4px;
   }
 
-  .pillar p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-  .about-visual {
-    position: relative;
-  }
+  .pillar p { font-size: 13px; color: var(--ink-muted); line-height: 1.5; }
 
   .about-card {
-    background: linear-gradient(135deg, rgba(26,110,181,0.2), rgba(14,165,160,0.1));
+    background: var(--off-white);
     border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px;
+    border-radius: 16px; padding: 32px;
     position: relative; overflow: hidden;
   }
 
   .about-card::before {
     content: '';
-    position: absolute; top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(14,165,160,0.2), transparent 70%);
-    border-radius: 50%;
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--blue));
   }
 
   .about-card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px; font-weight: 700; margin-bottom: 20px;
-    color: var(--sky);
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink); margin-bottom: 20px;
   }
 
   .mission-point {
-    display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
+    display: flex; gap: 12px;
+    margin-bottom: 14px; align-items: flex-start;
   }
 
   .mission-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--teal); margin-top: 6px; flex-shrink: 0;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal); margin-top: 7px; flex-shrink: 0;
   }
 
-  .mission-point p { font-size: 14px; color: rgba(248,250,252,0.75); line-height: 1.6; }
+  .mission-point p { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+
+  .contact-link {
+    display: inline-block; margin-top: 20px;
+    background: var(--teal-light); border: 1px solid var(--teal-mid);
+    color: var(--teal); padding: 10px 18px;
+    border-radius: 6px; font-size: 14px; text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .contact-link:hover { background: var(--teal-mid); }
 
   /* ── TOOLS ── */
-  .tools-section { background: rgba(255,255,255,0.02); }
+  .tools-wrap { background: var(--gray-100); }
 
   .tools-grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 28px;
   }
 
-  .tool-card {
-    background: var(--card);
+  .tool-card-light {
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 20px; overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    position: relative;
+    border-radius: 16px; overflow: hidden;
+    transition: box-shadow 0.3s, transform 0.3s;
   }
 
-  .tool-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(14,165,160,0.3);
-    box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+  .tool-card-light:hover {
+    box-shadow: 0 12px 40px rgba(15,31,46,0.1);
+    transform: translateY(-3px);
   }
 
-  .tool-card-header {
-    padding: 32px 32px 0;
-    position: relative;
+  .tool-card-light-header {
+    background: var(--teal-light);
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--teal-mid);
   }
 
-  .tool-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    padding: 4px 12px; border-radius: 100px;
-    margin-bottom: 20px;
+  .tool-card-light-header-ocean {
+    background: var(--blue-light);
+    border-bottom-color: #c5d9f0;
   }
 
-  .tag-ocean { background: rgba(56,189,248,0.15); color: var(--sky); }
-  .tag-lake { background: rgba(14,165,160,0.15); color: var(--teal); }
-
-  .tool-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px; font-weight: 700;
-    margin-bottom: 12px; line-height: 1.2;
+  .tool-tag-light {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--teal);
+    margin-bottom: 10px; display: block;
   }
 
-  .tool-card p {
-    font-size: 14px; color: rgba(248,250,252,0.65);
-    line-height: 1.7; margin-bottom: 24px;
+  .tool-tag-light-ocean { color: var(--blue); }
+
+  .tool-card-light h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--ink); margin-bottom: 6px;
   }
 
-  .tool-metrics {
-    display: flex; gap: 24px; margin-bottom: 28px;
+  .tool-tagline { font-size: 14px; color: var(--ink-muted); }
+
+  .tool-card-light-body { padding: 24px 28px; }
+
+  .tool-desc {
+    font-size: 14px; color: var(--ink-soft);
+    line-height: 1.7; margin-bottom: 18px;
   }
 
-  .metric { text-align: center; }
-
-  .metric-val {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px; font-weight: 800;
-    color: var(--sky);
+  .tool-bullets {
+    list-style: none; margin-bottom: 24px;
+    display: flex; flex-direction: column; gap: 8px;
   }
 
-  .metric-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  .tool-features {
-    display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px;
-  }
-
-  .feature {
+  .tool-bullets li {
+    font-size: 14px; color: var(--ink-soft);
     display: flex; align-items: center; gap: 10px;
-    font-size: 13px; color: rgba(248,250,252,0.7);
   }
 
-  .feature::before {
-    content: '✓'; width: 18px; height: 18px;
-    background: rgba(34,197,94,0.15); color: var(--green);
-    border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 11px; flex-shrink: 0;
+  .tool-bullets li::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); flex-shrink: 0;
   }
 
-  .tool-img {
-    width: 100%; height: 320px; object-fit: contain;
-    display: block; background: #0a2540;
-    border-top: 1px solid var(--border);
+  .btn-tool-light {
+    display: block; width: 100%; text-align: center;
+    background: var(--ocean); color: white;
+    padding: 13px; border-radius: 8px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none; margin-bottom: 14px;
+    transition: background 0.2s;
   }
 
-  .tool-img-placeholder {
-    width: 100%; height: 220px;
-    background: linear-gradient(135deg, rgba(26,110,181,0.3), rgba(14,165,160,0.2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px; border-top: 1px solid var(--border);
-  }
+  .btn-tool-light:hover { background: #0a2d4a; }
 
-  .tool-card-footer {
-    padding: 24px 32px;
-    border-top: 1px solid var(--border);
-    display: flex; gap: 12px; align-items: center;
-  }
-
-  .btn-tool {
-    flex: 1; text-align: center;
-    background: linear-gradient(135deg, var(--teal), var(--blue));
-    color: white; padding: 12px 20px;
-    border-radius: 8px; font-size: 14px; font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-
-  .btn-tool:hover { opacity: 0.85; }
-
-  .btn-tool-ghost {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--muted); padding: 12px 20px;
-    border-radius: 8px; font-size: 14px; font-weight: 500;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .btn-tool-ghost:hover { border-color: var(--white); color: var(--white); }
-
-  /* ── EDUCATION ── */
-  .edu-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 24px; margin-top: 16px;
-  }
-
-  .edu-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px;
-    transition: border-color 0.3s;
-  }
-
-  .edu-card:hover { border-color: rgba(56,189,248,0.3); }
-
-  .edu-icon {
-    font-size: 36px; margin-bottom: 16px;
-    display: block;
-  }
-
-  .edu-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px; font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .edu-card p {
-    font-size: 14px; color: rgba(248,250,252,0.65);
-    line-height: 1.7;
-  }
-
-  .edu-level {
-    display: inline-block;
-    margin-top: 16px; font-size: 11px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    padding: 4px 10px; border-radius: 4px;
-    background: rgba(56,189,248,0.1); color: var(--sky);
+  .tool-disclaimer {
+    font-size: 12px; color: var(--gray-400);
+    font-style: italic; line-height: 1.6;
   }
 
   /* ── HOW IT WORKS ── */
+  .how-wrap { background: var(--white); }
+
   .steps {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    display: grid; grid-template-columns: repeat(4,1fr);
     gap: 24px; position: relative;
   }
 
   .steps::before {
     content: '';
-    position: absolute; top: 28px; left: 10%; right: 10%;
-    height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    position: absolute; top: 26px; left: 8%; right: 8%;
+    height: 1px; background: var(--border);
   }
 
   .step { text-align: center; position: relative; }
 
   .step-num {
-    width: 56px; height: 56px;
-    background: linear-gradient(135deg, var(--deep), var(--blue));
+    width: 52px; height: 52px;
+    background: var(--white);
     border: 2px solid var(--teal);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-size: 20px; font-weight: 800;
-    color: var(--sky);
-    margin: 0 auto 20px;
-    position: relative; z-index: 1;
+    font-family: 'Fraunces', serif;
+    font-size: 20px; font-weight: 700; color: var(--teal);
+    margin: 0 auto 18px; position: relative; z-index: 1;
   }
 
   .step h4 {
-    font-family: 'Syne', sans-serif;
-    font-size: 15px; font-weight: 700;
-    margin-bottom: 8px;
+    font-family: 'Fraunces', serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--ink); margin-bottom: 8px;
   }
 
-  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step p { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
+
+  /* ── EDUCATION ── */
+  .edu-wrap { background: var(--gray-100); }
+
+  .edu-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px; font-weight: 600;
+    color: var(--ink); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .edu-section-title.ocean { border-bottom-color: var(--blue); }
+  .edu-section-title.lake { border-bottom-color: var(--teal); }
+
+  .edu-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+  }
+
+  .edu-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .edu-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 16px rgba(10,158,150,0.08);
+  }
+
+  .edu-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+
+  .edu-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; font-weight: 600;
+    color: var(--ink); margin-bottom: 8px;
+  }
+
+  .edu-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
 
   /* ── IMPACT ── */
+  .impact-wrap { background: var(--ocean); }
+
+  .impact-wrap .section-eyebrow { color: var(--teal-mid); }
+  .impact-wrap .section-eyebrow::before { background: var(--teal-mid); }
+  .impact-wrap .section-title { color: var(--white); }
+  .impact-wrap .section-sub { color: rgba(255,255,255,0.6); }
+
   .impact-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 20px; margin-bottom: 56px;
   }
 
   .impact-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 24px;
     text-align: center;
   }
 
   .impact-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 40px; font-weight: 800;
-    background: linear-gradient(135deg, var(--sky), var(--teal));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
+    font-family: 'Fraunces', serif;
+    font-size: 38px; font-weight: 700;
+    color: var(--teal-mid); margin-bottom: 8px;
   }
 
-  .impact-label { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .impact-label { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  .awards-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 8px;
+  }
+
+  .award-tag {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.25);
+    color: #f6c04d; font-size: 13px; font-weight: 500;
+    padding: 8px 14px; border-radius: 6px;
+  }
+
+  .award-tag svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .awards-label {
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 14px; display: block;
+  }
 
   /* ── CONTACT ── */
-  .contact-section {
-    background: linear-gradient(135deg, rgba(26,110,181,0.15), rgba(14,165,160,0.1));
+  .contact-wrap { background: var(--off-white); }
+
+  .contact-box {
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 24px; padding: 72px 48px;
-    text-align: center; margin: 0 48px 100px;
+    border-radius: 20px; padding: 64px 48px;
+    text-align: center; max-width: 680px; margin: 0 auto;
     position: relative; overflow: hidden;
   }
 
-  .contact-section::before {
+  .contact-box::before {
     content: '';
-    position: absolute; top: -60px; left: 50%;
-    transform: translateX(-50%);
-    width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(14,165,160,0.2), transparent 70%);
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--blue));
   }
 
-  .contact-section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 700; margin-bottom: 16px;
-    position: relative;
+  .contact-box h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700; color: var(--ink);
+    margin-bottom: 14px;
   }
 
-  .contact-section p {
-    font-size: 17px; color: rgba(248,250,252,0.65);
-    max-width: 520px; margin: 0 auto 40px;
-    line-height: 1.7; position: relative;
+  .contact-box p {
+    font-size: 16px; color: var(--ink-muted);
+    line-height: 1.7; margin-bottom: 32px;
   }
 
-  .contact-btns {
-    display: flex; gap: 16px; justify-content: center;
-    flex-wrap: wrap; position: relative;
+  .contact-email-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--teal); color: white;
+    padding: 14px 28px; border-radius: 8px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+    box-shadow: 0 2px 12px rgba(10,158,150,0.25);
   }
 
-  .contact-email {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--card); border: 1px solid var(--border);
-    color: var(--muted); padding: 14px 24px;
-    border-radius: 8px; font-size: 15px;
-    font-family: 'DM Sans', sans-serif;
-  }
+  .contact-email-btn:hover { background: #088880; }
 
   /* ── FOOTER ── */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 48px;
+    background: var(--ink);
+    padding: 36px 48px;
     display: flex; align-items: center;
-    justify-content: space-between; flex-wrap: wrap; gap: 16px;
-    color: var(--muted); font-size: 13px;
+    justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    color: rgba(255,255,255,0.4); font-size: 13px;
   }
 
   .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; color: var(--white);
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 18px;
+    color: var(--white);
   }
 
-  .footer-logo span { color: var(--sky); }
+  .footer-logo span { color: var(--teal-mid); }
 
-  /* ── FULL-WIDTH SECTIONS ── */
-  .full-section {
-    background: rgba(255,255,255,0.015);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
+  /* ── DIVIDERS ── */
+  .full-wrap { width: 100%; }
 
   /* ── SCROLL REVEAL ── */
   .reveal {
-    opacity: 0; transform: translateY(32px);
+    opacity: 0; transform: translateY(24px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
 
-  .reveal.visible {
-    opacity: 1; transform: translateY(0);
-  }
-
+  .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
   .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
+    nav { padding: 14px 24px; }
     .nav-links { display: none; }
-    section { padding: 72px 24px; }
+    .section { padding: 64px 24px; }
     .about-grid, .tools-grid { grid-template-columns: 1fr; }
     .edu-grid { grid-template-columns: 1fr 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     .impact-grid { grid-template-columns: 1fr 1fr; }
-    .contact-section { margin: 0 24px 72px; padding: 48px 24px; }
-    footer { padding: 32px 24px; }
+    .contact-box { padding: 40px 24px; margin: 0; }
+    footer { padding: 28px 24px; }
     .steps::before { display: none; }
-    .hero-stats { gap: 32px; }
   }
 
   @media (max-width: 600px) {
     .edu-grid, .steps, .impact-grid { grid-template-columns: 1fr; }
     .about-pillars { grid-template-columns: 1fr; }
-    .awards { padding: 24px; }
+    .hero-stats { gap: 32px; }
   }
 </style>
 </head>
@@ -661,7 +595,22 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Action<span>4</span>Water</a>
+  <a href="#" class="nav-logo">
+    <svg width="200" height="44" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="shineGradNav" cx="35%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="white" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <text x="178" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="#0f1f2e" text-anchor="end">Action</text>
+      <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="rgba(100,200,240,0.15)" stroke="#0a9e96" stroke-width="1.5"/>
+      <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="url(#shineGradNav)"/>
+      <ellipse cx="189" cy="58" rx="3" ry="5" fill="white" opacity="0.7"/>
+      <text x="200" y="110" font-family="Georgia,serif" font-size="62" font-weight="700" fill="#0a9e96" text-anchor="middle">4</text>
+      <text x="228" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="#0f1f2e" text-anchor="start">Water</text>
+    </svg>
+  </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#tools">Our Tools</a></li>
@@ -674,23 +623,16 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-bg"></div>
-
-  <div class="hero-badge">AI-Powered Water Pollution Monitoring</div>
-
-  <h1>Protecting Water<br>from Space with <em>AI</em></h1>
-
+  <div class="hero-eyebrow">AI-Powered Water Pollution Monitoring</div>
+  <h1>Monitor Lake & Ocean<br><em>Water Quality</em></h1>
   <p class="hero-sub">
-    From ocean plastic to lake algae — we use satellite imagery and machine learning 
-    to detect water pollution, and communicate the science through data to empower 
-    communities, inform decisions, and inspire action.
+    Using AI and satellite imagery, free for everyone, from communities and schools
+    to researchers and resource managers.
   </p>
-
   <div class="hero-btns">
     <a href="#tools" class="btn-primary">Explore Our Tools →</a>
     <a href="#education" class="btn-secondary">Learn How It Works</a>
   </div>
-
   <div class="hero-stats">
     <div class="stat">
       <div class="stat-num">2</div>
@@ -701,88 +643,19 @@
       <div class="stat-label">For Communities & Schools</div>
     </div>
   </div>
-
-  <div class="hero-waves">
-    <div class="wave">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
-        <path d="M0,50 C360,100 720,0 1080,50 C1260,75 1380,60 1440,50 L1440,100 L0,100 Z" fill="#0ea5a0"/>
-      </svg>
-    </div>
-    <div class="wave">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
-        <path d="M0,60 C240,20 480,80 720,60 C960,40 1200,80 1440,60 L1440,100 L0,100 Z" fill="#38bdf8"/>
-      </svg>
-    </div>
-  </div>
-</div>
-
-<!-- AWARDS -->
-<div class="awards">
-  <span class="awards-label">Recognized by</span>
-  <div class="award-tag">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    Top Climate Change & Environment Project
-  </div>
-  <div class="award-tag">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    Most Innovative & Outstanding Project
-  </div>
-  <div class="award-tag">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    CMOS 2025 Special Award
-  </div>
-  <div class="award-tag">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    Honeywell Aerospace Innovation 2025
-  </div>
 </div>
 
 <!-- ABOUT -->
-<section id="about">
+<div class="about-wrap full-wrap" id="about">
+<div class="section">
   <div class="about-grid">
     <div class="about-text reveal">
-      <div class="section-label">About Us</div>
+      <div class="section-eyebrow">About Us</div>
       <h2 class="section-title">Science That Serves Communities</h2>
-      <p>
-        Access to clean, reliable water is one of the most critical challenges
-        facing communities worldwide. At Action4Water, we bridge cutting-edge
-        AI innovation with real-world impact.
-      </p>
-      <p>
-        We develop satellite-based AI tools for water pollution monitoring —
-        making advanced science accessible to researchers, governments,
-        educators, and concerned citizens alike.
-      </p>
-      <p>
-        At Action4Water, we believe that science only creates change when it is 
-        clearly communicated. We don't just collect data — we translate it into 
-        stories, maps, and tools that move people to act.
-      </p>
-      <div class="about-pillars">
-        <div class="pillar">
-          <div class="pillar-icon">🛰️</div>
-          <h4>Satellite Data</h4>
-          <p>Free Sentinel-2 imagery covering the entire globe.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">🤖</div>
-          <h4>Machine Learning</h4>
-          <p>Trained AI models for accurate pollution detection.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">🌍</div>
-          <h4>Open Access</h4>
-          <p>Free tools for communities, schools, and researchers.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon">📊</div>
-          <h4>Actionable Data</h4>
-          <p>Scientific results in formats anyone can understand.</p>
-        </div>
-      </div>
-    </div>
-    <div class="about-visual reveal reveal-delay-2">
-      <div class="about-card">
+      <p>Access to clean, reliable water is one of the most critical challenges facing communities worldwide. At Action4Water, we bridge cutting-edge AI innovation with real-world impact.</p>
+      <p>We develop AI tools for water pollution monitoring, making advanced science accessible to researchers, governments, educators, and concerned citizens alike.</p>
+      <p>At Action4Water, we believe that science only creates change when it is clearly communicated. We don't just collect data, we translate it into stories, maps, and tools that move people to act.</p>
+      <div class="about-card" style="margin-top:32px;">
         <div class="about-card-title">Our Mission</div>
         <div class="mission-point">
           <div class="mission-dot"></div>
@@ -800,87 +673,75 @@
           <div class="mission-dot"></div>
           <p>Drive innovation in environmental monitoring by transforming satellite data into practical solutions.</p>
         </div>
-        <a href="mailto:contact@action4water.org" style="display:inline-block;margin-top:24px;background:rgba(14,165,160,0.15);border:1px solid rgba(14,165,160,0.3);color:var(--teal);padding:10px 20px;border-radius:6px;font-size:14px;text-decoration:none;">
-          Contact us for free solutions →
-        </a>
+        <a href="mailto:contact@action4water.org" class="contact-link">Contact us for free solutions →</a>
       </div>
     </div>
+    <div class="reveal reveal-delay-2" style="display:flex;align-items:center;justify-content:center;">
+      <img src="https://i.imgur.com/gkBDX6r.png" alt="Action4Water" style="width:100%;max-width:480px;border-radius:16px;box-shadow:0 8px 32px rgba(15,31,46,0.1);">
+    </div>
   </div>
-</section>
+</div>
+</div>
 
 <!-- TOOLS -->
-<div class="full-section" id="tools">
-<section style="max-width:1200px;margin:0 auto;">
-  <div class="section-label reveal">Our Tools</div>
+<div class="tools-wrap full-wrap" id="tools">
+<div class="section">
+  <div class="section-eyebrow reveal">Our Tools</div>
   <h2 class="section-title reveal">Two Tools, One Mission</h2>
-  <p class="section-sub reveal">Both tools use the same approach — free Sentinel-2 satellite imagery combined with machine learning — to detect different types of water pollution.</p>
+  <p class="section-sub reveal">Both tools use the same approach, using free Sentinel-2 satellite imagery and machine learning, to detect different types of water pollution.</p>
 
   <div class="tools-grid">
-
-    <!-- Lake Water Quality Tool -->
-    <div class="tool-card reveal">
-      <div class="tool-card-header">
-        <div class="tool-tag tag-lake">🔬 Lakes</div>
+    <!-- Lake -->
+    <div class="tool-card-light reveal">
+      <div class="tool-card-light-header">
+        <span class="tool-tag-light">LAKE WATER</span>
         <h3>Northern Lakes Monitor</h3>
-        <p>
-          Estimates chlorophyll-a (algae) levels in lakes across Canada's North
-          using Sentinel-2 imagery and a Random Forest model — detecting
-          harmful algal blooms before they become dangerous.
-        </p>
-        <div class="tool-features">
-          <div class="feature">Real-time lake health monitoring</div>
-          <div class="feature">Harmful algal bloom (HAB) detection</div>
-          <div class="feature">No water sampling required</div>
-          <div class="feature">Export maps for research & reporting</div>
-        </div>
+        <p class="tool-tagline">View bloom conditions by place and date</p>
       </div>
-      <img src="https://i.imgur.com/Bsv4Pn3.png" alt="Northern Lakes Monitor" class="tool-img">
-      <div class="tool-card-footer">
-        <a href="https://lakes.action4water.org" target="_blank" class="btn-tool">Try the Tool →</a>
-        <a href="#education" class="btn-tool-ghost">How It Works</a>
+      <img src="https://i.imgur.com/Bsv4Pn3.png" alt="Northern Lakes Monitor" style="width:100%;height:240px;object-fit:cover;display:block;border-bottom:1px solid var(--border);">
+      <div class="tool-card-light-body">
+        <p class="tool-desc">Select a lake area and choose a date to view satellite-based water condition maps. Estimates chlorophyll-a levels using Sentinel-2 imagery and a Random Forest model, designed for local awareness, education, research, and early screening.</p>
+        <ul class="tool-bullets">
+          <li>Harmful algal bloom (HAB) detection</li>
+          <li>No water sampling required</li>
+          <li>Export maps for research and reporting</li>
+          <li>Covers lakes across Canada's North</li>
+        </ul>
+        <a href="https://lakes.action4water.org" target="_blank" class="btn-tool-light">Launch Lake Tool</a>
+        <p class="tool-disclaimer">Results indicate risk signals, not a substitute for on-site sampling, lab testing, or official water safety advisories.</p>
       </div>
     </div>
 
-    <!-- Ocean Plastic Tool -->
-    <div class="tool-card reveal reveal-delay-2">
-      <div class="tool-card-header">
-        <div class="tool-tag tag-ocean">🌊 Ocean</div>
+    <!-- Ocean -->
+    <div class="tool-card-light reveal reveal-delay-2">
+      <div class="tool-card-light-header tool-card-light-header-ocean">
+        <span class="tool-tag-light tool-tag-light-ocean">OCEAN WATER</span>
         <h3>Ocean Floating Plastic Detection</h3>
-        <p>
-          Detects ocean floating plastic debris across large areas using
-          Sentinel-2 satellite imagery and a machine learning classifier —
-          covering areas impossible to monitor by boat alone.
-        </p>
-        <div class="tool-features">
-          <div class="feature">Large-scale ocean coverage via satellite</div>
-          <div class="feature">Automated AI-powered detection</div>
-          <div class="feature">Supports cleanup planning & policy</div>
-          <div class="feature">Protects marine biodiversity</div>
-        </div>
-        <div style='margin-top:16px;padding:12px 16px;background:rgba(245,158,11,0.08);
-        border-left:3px solid var(--amber);border-radius:6px;
-        font-size:13px;color:rgba(248,250,252,0.7);line-height:1.6;'>
-        🔧 <b style='color:var(--amber);'>Web-based tool in development.</b>
-        We provide this service free of charge for communities and organizations
-        upon request, contact us to get started.
-        </div>
+        <p class="tool-tagline">Mapping visible debris signals in coastal waters</p>
       </div>
-      <img src="https://i.imgur.com/GvgwAQj.png" alt="Ocean Floating Plastic Detection" class="tool-img">
-      <div class="tool-card-footer">
-        <a href="mailto:contact@action4water.org" class="btn-tool">Request Free Service</a>
-        <a href="#contact" class="btn-tool-ghost">Learn More</a>
+      <img src="https://i.imgur.com/GvgwAQj.png" alt="Ocean Floating Plastic Detection" style="width:100%;height:240px;object-fit:cover;display:block;border-bottom:1px solid var(--border);">
+      <div class="tool-card-light-body">
+        <p class="tool-desc">Detects floating plastic debris across large coastal areas using Sentinel-2 imagery and a machine learning classifier, covering areas impossible to monitor by boat alone. Supports cleanup planning, policy, and marine pollution awareness.</p>
+        <ul class="tool-bullets">
+          <li>Large-scale ocean coverage via satellite</li>
+          <li>Automated AI-powered detection</li>
+          <li>Supports cleanup planning & policy</li>
+          <li>Protects marine biodiversity</li>
+        </ul>
+        <a href="mailto:contact@action4water.org" class="btn-tool-light">Request Free Service</a>
+        <p class="tool-disclaimer">Web tool in development. Available now by request, free for communities and organizations. Not all plastic is visible from satellite data.</p>
       </div>
     </div>
-
   </div>
-</section>
+</div>
 </div>
 
 <!-- HOW IT WORKS -->
-<section id="howitworks">
-  <div class="section-label reveal">How It Works</div>
-  <h2 class="section-title reveal">From Satellite to Insight</h2>
-  <p class="section-sub reveal">Our tools follow a four-step process to turn raw satellite data into actionable water quality information.</p>
+<div class="how-wrap full-wrap" id="howitworks">
+<div class="section">
+  <div class="section-eyebrow reveal">How It Works</div>
+  <h2 class="section-title reveal">Research Behind the Maps</h2>
+  <p class="section-sub reveal">Action4Water grew from research on visible water pollution signals, lake algal bloom monitoring and floating debris detection in coastal waters. The goal is simple: turn complex water data into maps and explanations people can understand, question, and use.</p>
 
   <div class="steps">
     <div class="step reveal">
@@ -901,23 +762,21 @@
     <div class="step reveal reveal-delay-3">
       <div class="step-num">4</div>
       <h4>Results & Action</h4>
-      <p>Color-coded maps show pollution levels clearly — for scientists, governments, and the public.</p>
+      <p>Color-coded maps show pollution levels clearly, for scientists, governments, and the public.</p>
     </div>
   </div>
-</section>
+</div>
+</div>
 
 <!-- EDUCATION -->
-<div class="full-section" id="education">
-<section style="max-width:1200px;margin:0 auto;">
-  <div class="section-label reveal">Education</div>
+<div class="edu-wrap full-wrap" id="education">
+<div class="section">
+  <div class="section-eyebrow reveal">Education</div>
   <h2 class="section-title reveal">Learning About Water Pollution</h2>
   <p class="section-sub reveal">Understanding water pollution is the first step to protecting it. Here are the key concepts behind our tools, explained for all ages.</p>
 
-  <!-- Ocean Section -->
-  <div style="margin-bottom:56px;">
-    <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
-    color:var(--sky);margin-bottom:24px;display:flex;align-items:center;gap:10px;">
-    🌊 Ocean — Plastic Pollution</h3>
+  <div style="margin-bottom:48px;">
+    <div class="edu-section-title ocean reveal">🌊 Ocean — Plastic Pollution</div>
     <div class="edu-grid">
       <div class="edu-card reveal">
         <span class="edu-icon">🌊</span>
@@ -937,11 +796,8 @@
     </div>
   </div>
 
-  <!-- Lake Section -->
   <div>
-    <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
-    color:var(--teal);margin-bottom:24px;display:flex;align-items:center;gap:10px;">
-    🔬 Lakes — Algae & Water Quality</h3>
+    <div class="edu-section-title lake reveal">🔬 Lakes — Algae & Water Quality</div>
     <div class="edu-grid">
       <div class="edu-card reveal">
         <span class="edu-icon">💧</span>
@@ -951,22 +807,22 @@
       <div class="edu-card reveal reveal-delay-1">
         <span class="edu-icon">🟢</span>
         <h3>What Is Chlorophyll-a?</h3>
-        <p>Chlorophyll-a is the green pigment in algae and plants. In lakes — and oceans — high levels mean too much algae is growing. These blooms can make water unsafe for swimming and harm fish and wildlife.</p>
+        <p>Chlorophyll-a is the green pigment in algae and plants. In lakes, and oceans, high levels mean too much algae is growing. These blooms can make water unsafe for swimming and harm fish and wildlife.</p>
       </div>
       <div class="edu-card reveal reveal-delay-2">
         <span class="edu-icon">🌿</span>
         <h3>What Are Harmful Algal Blooms?</h3>
-        <p>Harmful Algal Blooms (HABs) occur when algae grow rapidly and dominate a water body. They produce toxins dangerous to humans, pets, and aquatic life — and are becoming more frequent due to climate change and nutrient runoff.</p>
+        <p>Harmful Algal Blooms (HABs) occur when algae grow rapidly and dominate a water body. They produce toxins dangerous to humans, pets, and aquatic life, and are becoming more frequent due to climate change and nutrient runoff.</p>
       </div>
       <div class="edu-card reveal">
         <span class="edu-icon">🤖</span>
         <h3>How Does AI Measure Algae from Space?</h3>
-        <p>Algae reflect specific wavelengths of light detectable by satellites. Our Random Forest model analyzes these spectral signatures to estimate chlorophyll-a concentration — without anyone needing to collect a water sample.</p>
+        <p>Algae reflect specific wavelengths of light detectable by satellites. Our Random Forest model analyzes these spectral signatures to estimate chlorophyll-a concentration, without anyone needing to collect a water sample.</p>
       </div>
       <div class="edu-card reveal reveal-delay-1">
         <span class="edu-icon">🌏</span>
         <h3>Why Do Northern Lakes Matter?</h3>
-        <p>Canada's northern lakes are among the world's cleanest — but climate change is warming them faster than anywhere else. Rising temperatures fuel algal blooms, threatening drinking water and the communities and ecosystems that depend on these lakes.</p>
+        <p>Canada's northern lakes are among the world's cleanest, but climate change is warming them faster than anywhere else. Rising temperatures fuel algal blooms, threatening drinking water and the communities and ecosystems that depend on these lakes.</p>
       </div>
       <div class="edu-card reveal reveal-delay-2">
         <span class="edu-icon">📊</span>
@@ -975,65 +831,102 @@
       </div>
     </div>
   </div>
-
-</section>
+</div>
 </div>
 
 <!-- IMPACT -->
-<section id="impact">
-  <div class="section-label reveal">Our Impact</div>
+<div class="impact-wrap full-wrap" id="impact">
+<div class="section">
+  <div class="section-eyebrow reveal">Our Impact</div>
   <h2 class="section-title reveal">Real-World Results</h2>
-  <p class="section-sub reveal">Our tools are being used by researchers, governments, and communities to protect water resources across Canada and beyond.</p>
 
-  <div class="impact-grid">
-    <div class="impact-card reveal">
-      <div class="impact-num">92%</div>
-      <div class="impact-label">Ocean plastic detection accuracy</div>
+  <div style="margin-top:48px;" class="reveal">
+    <img src="https://i.imgur.com/2glsg3L.png" alt="Satellite-derived Chl-a maps for Yellowknife Bay 2020-2025"
+         style="width:100%;border-radius:12px;display:block;margin-bottom:14px;">
+    <p style="font-size:13px;color:rgba(255,255,255,0.5);font-style:italic;line-height:1.7;">
+      Satellite-derived chlorophyll-a (Chl-a) maps for Yellowknife Bay in July (2020–2025). 
+      Some warmer years, such as 2021 and 2024, show higher algae levels in parts of the bay. 
+      These maps are designed to highlight patterns and changes over time and are not a 
+      replacement for water quality testing.
+    </p>
+  </div>
+
+  <div style="margin-top:48px;" class="reveal">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+      <img src="https://i.imgur.com/onzwbkm.jpeg" alt="Satellite-detected floating plastic debris map 1"
+           style="width:100%;border-radius:12px;display:block;">
+      <img src="https://i.imgur.com/T4OhuBN.jpeg" alt="Satellite-detected floating plastic debris map 2"
+           style="width:100%;border-radius:12px;display:block;">
     </div>
-    <div class="impact-card reveal reveal-delay-1">
-      <div class="impact-num">6yr</div>
-      <div class="impact-label">Time-series lake monitoring (2020–2025)</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.5);font-style:italic;line-height:1.7;">
+      Satellite-detected floating plastic debris in coastal waters, mapped using our AI model 
+      trained on Sentinel-2 imagery. These maps identify visible debris signals that are 
+      difficult or impossible to survey by boat alone.
+    </p>
+  </div>
+
+  <span class="awards-label reveal">Recognized by</span>
+  <div class="awards-row reveal">
+    <div class="award-tag">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Top Climate Change & Environment Project
+      <img src="https://i.imgur.com/33XyLMp.png" alt="Top Climate Change & Environment Project award" style="height:40px;border-radius:6px;margin-left:8px;">
     </div>
-    <div class="impact-card reveal reveal-delay-2">
-      <div class="impact-num">4</div>
-      <div class="impact-label">International awards & recognitions</div>
+    <div class="award-tag">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Most Innovative & Outstanding Project
     </div>
-    <div class="impact-card reveal reveal-delay-3">
-      <div class="impact-num">Free</div>
-      <div class="impact-label">For all communities and schools</div>
+    <div class="award-tag">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      CMOS 2025 Special Award
+    </div>
+    <div class="award-tag">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Honeywell Aerospace Innovation 2025
     </div>
   </div>
-</section>
+</div>
+</div>
 
 <!-- CONTACT -->
-<div class="contact-section" id="contact">
-  <h2 class="reveal">Work With Us</h2>
-  <p class="reveal">
-    Whether you're a community leader, resource manager, researcher, or teacher,
-    we want to hear from you. Feel free to contact us with your request!
-    We can be reached by email at:
-  </p>
-  <div class="contact-btns reveal">
-    <a href="mailto:contact@action4water.org" class="btn-primary">
+<div class="contact-wrap full-wrap" id="contact">
+<div class="section">
+  <div class="contact-box reveal">
+    <h2>Work With Us</h2>
+    <p>Whether you're a community leader, resource manager, researcher, or teacher, we want to hear from you. Feel free to contact us with your request! We can be reached by email at:</p>
+    <a href="mailto:contact@action4water.org" class="contact-email-btn">
       📧 contact@action4water.org
     </a>
   </div>
 </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Action<span>4</span>Water</div>
+  <div>
+    <svg width="200" height="44" viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="shineGradFoot" cx="35%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="white" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <text x="178" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="white" text-anchor="end">Action</text>
+      <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="rgba(100,200,240,0.15)" stroke="#0a9e96" stroke-width="1.5"/>
+      <path d="M200 28 C200 28 172 70 172 92 C172 108 184 120 200 120 C216 120 228 108 228 92 C228 70 200 28 200 28Z" fill="url(#shineGradFoot)"/>
+      <ellipse cx="189" cy="58" rx="3" ry="5" fill="white" opacity="0.7"/>
+      <text x="200" y="110" font-family="Georgia,serif" font-size="62" font-weight="700" fill="#0a9e96" text-anchor="middle">4</text>
+      <text x="228" y="115" font-family="Georgia,serif" font-size="52" font-weight="700" fill="white" text-anchor="start">Water</text>
+    </svg>
+  </div>
   <div>Leveraging AI to protect water resources for communities worldwide.</div>
   <div>© 2025 Action4Water. All rights reserved.</div>
 </footer>
 
 <script>
-  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
 
