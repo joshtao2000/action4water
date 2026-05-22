@@ -447,12 +447,12 @@
   .edu-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
 
   /* ── IMPACT ── */
-  .impact-wrap { background: var(--ocean); }
+  .impact-wrap { background: var(--gray-100); }
 
-  .impact-wrap .section-eyebrow { color: var(--teal-mid); }
-  .impact-wrap .section-eyebrow::before { background: var(--teal-mid); }
-  .impact-wrap .section-title { color: var(--white); }
-  .impact-wrap .section-sub { color: rgba(255,255,255,0.6); }
+  .impact-wrap .section-eyebrow { color: var(--teal); }
+  .impact-wrap .section-eyebrow::before { background: var(--teal); }
+  .impact-wrap .section-title { color: var(--ink); }
+  .impact-wrap .section-sub { color: var(--ink-muted); }
 
   .impact-grid {
     display: grid; grid-template-columns: repeat(4,1fr);
@@ -460,8 +460,8 @@
   }
 
   .impact-card {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 12px; padding: 24px;
     text-align: center;
   }
@@ -469,10 +469,10 @@
   .impact-num {
     font-family: 'Fraunces', serif;
     font-size: 38px; font-weight: 700;
-    color: var(--teal-mid); margin-bottom: 8px;
+    color: var(--teal); margin-bottom: 8px;
   }
 
-  .impact-label { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+  .impact-label { font-size: 13px; color: var(--ink-muted); line-height: 1.5; }
 
   .awards-row {
     display: flex; flex-wrap: wrap; gap: 10px;
@@ -481,9 +481,9 @@
 
   .award-tag {
     display: flex; align-items: center; gap: 7px;
-    background: rgba(245,158,11,0.12);
-    border: 1px solid rgba(245,158,11,0.25);
-    color: #f6c04d; font-size: 13px; font-weight: 500;
+    background: var(--amber-light);
+    border: 1px solid rgba(196,122,0,0.2);
+    color: var(--amber); font-size: 13px; font-weight: 500;
     padding: 8px 14px; border-radius: 6px;
   }
 
@@ -616,9 +616,9 @@
     <li><a href="#tools">Our Tools</a></li>
     <li><a href="#education">Learn</a></li>
     <li><a href="#impact">Impact</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Partner With Us</a></li>
   </ul>
-  <a href="#tools" class="nav-cta">Explore Tools</a>
+  <a href="#tools" class="nav-cta">Try Our Tools</a>
 </nav>
 
 <!-- HERO -->
@@ -630,7 +630,7 @@
     to researchers and resource managers.
   </p>
   <div class="hero-btns">
-    <a href="#tools" class="btn-primary">Explore Our Tools →</a>
+    <a href="#tools" class="btn-primary">Try Our Tools →</a>
     <a href="#education" class="btn-secondary">Learn How It Works</a>
   </div>
   <div class="hero-stats">
@@ -846,7 +846,7 @@
   <div style="margin-top:48px;" class="reveal">
     <img src="https://i.imgur.com/2glsg3L.png" alt="Satellite-derived Chl-a maps for Yellowknife Bay 2020-2025"
          style="width:60%;display:block;margin:0 auto 14px;border-radius:12px;">
-    <p style="font-size:13px;color:rgba(255,255,255,0.5);font-style:italic;line-height:1.7;text-align:center;">
+    <p style="font-size:13px;color:var(--ink-muted);font-style:italic;line-height:1.7;text-align:center;">
       Satellite-derived chlorophyll-a (Chl-a) maps for Yellowknife Bay in July (2020–2025). 
       Some warmer years, such as 2021 and 2024, show higher algae levels in parts of the bay. 
       These maps are designed to highlight patterns and changes over time and are not a 
@@ -861,34 +861,40 @@
       <img src="https://i.imgur.com/T4OhuBN.jpeg" alt="Satellite-detected floating plastic debris map 2"
            style="width:100%;border-radius:12px;display:block;">
     </div>
-    <p style="font-size:13px;color:rgba(255,255,255,0.5);font-style:italic;line-height:1.7;">
+    <p style="font-size:13px;color:var(--ink-muted);font-style:italic;line-height:1.7;">
       Satellite-detected floating plastic debris in coastal waters, mapped using our AI model 
       trained on Sentinel-2 imagery. These maps identify visible debris signals that are 
       difficult or impossible to survey by boat alone.
     </p>
   </div>
 
-  <span class="awards-label reveal">Recognized by</span>
-  <div class="awards-row reveal">
-    <div class="award-tag">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Top Climate Change & Environment Project
-      <img src="https://i.imgur.com/33XyLMp.png" alt="Top Climate Change & Environment Project award" style="height:40px;border-radius:6px;margin-left:8px;">
-    </div>
-    <div class="award-tag">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Most Innovative & Outstanding Project
-      <img src="https://i.imgur.com/33XyLMp.png" alt="Most Innovative & Outstanding Project award" style="height:40px;border-radius:6px;margin-left:8px;">
-    </div>
-    <div class="award-tag">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      CMOS Special Award in ORSF
-      <img src="https://i.imgur.com/GjyiMj3.png" alt="CMOS Special Award in ORSF" style="height:40px;border-radius:6px;margin-left:8px;">
-    </div>
-    <div class="award-tag">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Governor General Ingenious+ Regional Award
-      <img src="https://i.imgur.com/cEd3I23.png" alt="Governor General Ingenious+ Regional Award" style="height:40px;border-radius:6px;margin-left:8px;">
+  <div style="margin-top:48px;" class="reveal">
+    <p style="font-size:13px;font-weight:700;color:var(--ink-muted);
+    text-transform:uppercase;letter-spacing:0.12em;margin-bottom:20px;
+    padding-bottom:12px;border-bottom:1px solid var(--border);">
+      Recognized By
+    </p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="award-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Top Climate Change & Environment Project
+        <img src="https://i.imgur.com/33XyLMp.png" alt="ORSF award" style="height:40px;border-radius:6px;margin-left:auto;">
+      </div>
+      <div class="award-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Most Innovative & Outstanding Project
+        <img src="https://i.imgur.com/33XyLMp.png" alt="ORSF award" style="height:40px;border-radius:6px;margin-left:auto;">
+      </div>
+      <div class="award-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        CMOS Special Award in ORSF
+        <img src="https://i.imgur.com/GjyiMj3.png" alt="CMOS award" style="height:40px;border-radius:6px;margin-left:auto;">
+      </div>
+      <div class="award-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Governor General Ingenious+ Regional Award
+        <img src="https://i.imgur.com/cEd3I23.png" alt="Governor General award" style="height:40px;border-radius:6px;margin-left:auto;">
+      </div>
     </div>
   </div>
 </div>
@@ -897,15 +903,105 @@
 <!-- CONTACT -->
 <div class="contact-wrap full-wrap" id="contact">
 <div class="section">
-  <div class="contact-box reveal">
-    <h2>Work With Us</h2>
-    <p>Whether you're a community leader, resource manager, researcher, or teacher, we want to hear from you. Feel free to contact us with your request! We can be reached by email at:</p>
-    <a href="mailto:contact@action4water.org" class="contact-email-btn">
-      📧 contact@action4water.org
-    </a>
+  <div class="section-eyebrow reveal">Get in Touch</div>
+  <h2 class="section-title reveal">Partner with us</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:80px;margin-top:40px;" class="reveal">
+
+    <!-- Left -->
+    <div>
+      <p style="font-size:20px;font-weight:600;color:var(--teal);line-height:1.5;margin-bottom:20px;">
+        Tell us which water area you are interested in and what kind of support you need.
+      </p>
+      <p style="font-size:15px;color:var(--ink-muted);line-height:1.7;margin-bottom:20px;">
+        We work with community organizations, researchers, educators, and government teams. We aim to reply within 5–7 business days.
+      </p>
+      <p style="font-size:15px;color:var(--ink-muted);margin-bottom:8px;">Or reach us directly:</p>
+      <a href="mailto:contact@action4water.org" 
+         style="font-size:15px;color:var(--teal);font-family:monospace;text-decoration:none;">
+        contact@action4water.org
+      </a>
+      <hr style="border:none;border-top:1px solid var(--border);margin:28px 0;">
+      <p style="font-size:13px;color:var(--ink-muted);line-height:1.7;">
+        We do not share your contact information. Action4Water is not an official water safety advisory service.
+      </p>
+    </div>
+
+    <!-- Right: Form -->
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--ink-muted);display:block;margin-bottom:8px;">NAME</label>
+          <input type="text" placeholder="Your name"
+                 style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;background:var(--white);">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--ink-muted);display:block;margin-bottom:8px;">EMAIL</label>
+          <input type="email" placeholder="your@email.com"
+                 style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;background:var(--white);">
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--ink-muted);display:block;margin-bottom:8px;">ORGANIZATION</label>
+        <input type="text" placeholder="Community group, school, university, agency, or local team"
+               style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;background:var(--white);">
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--ink-muted);display:block;margin-bottom:8px;">I'M INTERESTED IN</label>
+        <select style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;background:var(--white);appearance:auto;">
+          <option value="">Select one</option>
+          <option>Lake water quality monitoring</option>
+          <option>Ocean plastic detection</option>
+          <option>Research collaboration</option>
+          <option>Educational use</option>
+          <option>Custom data request</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--ink-muted);display:block;margin-bottom:8px;">WATER AREA OR QUESTION</label>
+        <textarea placeholder="Which river, lake, or coastal area are you interested in? What are you trying to understand?"
+                  rows="4"
+                  style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;background:var(--white);resize:vertical;"></textarea>
+      </div>
+
+      <button onclick="handleSubmit()"
+              style="background:var(--ocean);color:white;padding:14px 28px;border:none;border-radius:8px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background 0.2s;"
+              onmouseover="this.style.background='#0a2d4a'"
+              onmouseout="this.style.background='var(--ocean)'">
+        Send message
+      </button>
+      <p style="font-size:12px;color:var(--ink-muted);margin-top:12px;">
+        We don't share your contact information. Replies within 5–7 business days.
+      </p>
+    </div>
   </div>
 </div>
 </div>
+
+<script>
+function handleSubmit() {
+  var inputs = document.querySelectorAll('#contact input, #contact select, #contact textarea');
+  var name = inputs[0].value.trim();
+  var email = inputs[1].value.trim();
+  if (!name || !email) {
+    alert('Please fill in your name and email.');
+    return;
+  }
+  var subject = encodeURIComponent('Action4Water Partnership Inquiry');
+  var body = encodeURIComponent(
+    'Name: ' + inputs[0].value + '\n' +
+    'Email: ' + inputs[1].value + '\n' +
+    'Organization: ' + inputs[2].value + '\n' +
+    'Interested in: ' + inputs[3].value + '\n' +
+    'Message: ' + inputs[4].value
+  );
+  window.location.href = 'mailto:contact@action4water.org?subject=' + subject + '&body=' + body;
+}
+</script>
 
 <!-- FOOTER -->
 <footer>
