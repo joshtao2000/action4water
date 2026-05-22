@@ -984,23 +984,46 @@
 </div>
 
 <script>
-function handleSubmit() {
+async function handleSubmit() {
   var inputs = document.querySelectorAll('#contact input, #contact select, #contact textarea');
   var name = inputs[0].value.trim();
   var email = inputs[1].value.trim();
+  var organization = inputs[2].value.trim();
+  var interest = inputs[3].value.trim();
+  var message = inputs[4].value.trim();
+
   if (!name || !email) {
     alert('Please fill in your name and email.');
     return;
   }
-  var subject = encodeURIComponent('Action4Water Partnership Inquiry');
-  var body = encodeURIComponent(
-    'Name: ' + inputs[0].value + '\n' +
-    'Email: ' + inputs[1].value + '\n' +
-    'Organization: ' + inputs[2].value + '\n' +
-    'Interested in: ' + inputs[3].value + '\n' +
-    'Message: ' + inputs[4].value
-  );
-  window.location.href = 'mailto:contact@action4water.org?subject=' + subject + '&body=' + body;
+
+  var btn = document.querySelector('#contact button');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    var response = await fetch('https://action4water-api.onrender.com/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, organization, interest, message })
+    });
+
+    var result = await response.json();
+
+    if (response.ok) {
+      btn.textContent = '✅ Message sent!';
+      btn.style.background = '#0a9e96';
+      inputs.forEach(i => i.value = '');
+    } else {
+      btn.textContent = '❌ Failed. Try again.';
+      btn.style.background = '#dc2626';
+      btn.disabled = false;
+    }
+  } catch (err) {
+    btn.textContent = '❌ Failed. Try again.';
+    btn.style.background = '#dc2626';
+    btn.disabled = false;
+  }
 }
 </script>
 
