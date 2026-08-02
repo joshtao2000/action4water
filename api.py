@@ -29,7 +29,7 @@ def send_email():
             return jsonify({"error": "Name and email are required."}), 400
 
         msg = MIMEMultipart()
-        msg["From"] = GMAIL_USER
+        msg["From"] = f"Action4Water <{GMAIL_USER}>"
         msg["To"] = TO_EMAIL
         msg["Subject"] = f"Action4Water Partnership Inquiry from {name}"
 
@@ -95,7 +95,7 @@ Sent via Northern Lakes Watch mobile app
 
         def build_msg(to, subject, include_photo):
             m = MIMEMultipart()
-            m["From"] = GMAIL_USER
+            m["From"] = f"Action4Water <{GMAIL_USER}>"
             m["To"] = to
             m["Subject"] = subject
             m.attach(MIMEText(body, "plain"))
