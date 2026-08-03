@@ -79,7 +79,7 @@ FIELD OBSERVATION REPORT from {user_email}
 Location:          {location}
 Date/Time:         {datetime_str}
 Nearest community: {community}
-Water body:        {water_body}
+Location/Area:     {water_body}
 
 Description:
 {description}
@@ -109,7 +109,7 @@ Sent via Northern Lakes Watch mobile app
         if recipient_email:
             msg_rec = build_msg(
                 recipient_email,
-                f"Water Quality Field Report — {water_body or community}",
+                f"Environmental Field Report — {water_body or community}",
                 True
             )
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
