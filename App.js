@@ -20,11 +20,14 @@ export default function App() {
   const [initialRoute, setInitialRoute] = useState(null);
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!initialRoute) setInitialRoute('Auth');
+    }, 3000);
+
     (async () => {
       try {
         const email = await AsyncStorage.getItem('user_email');
         if (email) {
-          // Fire login count update in background
           fetch(`${API_URL}/app-login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -36,8 +39,12 @@ export default function App() {
         }
       } catch (e) {
         setInitialRoute('Auth');
+      } finally {
+        clearTimeout(timeout);
       }
     })();
+
+    return () => clearTimeout(timeout);
   }, []);
 
   if (!initialRoute) {
