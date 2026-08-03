@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthScreen from './screens/AuthScreen';
 import MapScreen from './screens/MapScreen';
@@ -16,46 +16,50 @@ import FieldReportScreen from './screens/FieldReportScreen';
 const Stack = createStackNavigator();
 const API_URL = 'https://northern-lakes-api.onrender.com';
 
-export default function App() {
-  const [initialRoute, setInitialRoute] = useState(null);
-
+function SplashScreen({ onReady }) {
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!initialRoute) setInitialRoute('Auth');
-    }, 3000);
-
-    (async () => {
-      try {
-        const email = await AsyncStorage.getItem('user_email');
-        console.log('AsyncStorage email:', email);
+    console.log('SplashScreen useEffect firing');
+    AsyncStorage.getItem('user_email')
+      .then(email => {
+        console.log('Got email:', email);
         if (email) {
           fetch(`${API_URL}/app-login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
           }).catch(() => {});
-          setInitialRoute('Map');
+          onReady('Map');
         } else {
-          setInitialRoute('Auth');
+          onReady('Auth');
         }
-      } catch (e) {
-        setInitialRoute('Auth');
-      } finally {
-        clearTimeout(timeout);
-      }
-    })();
+      })
+      .catch(e => {
+        console.log('AsyncStorage error:', e);
+        onReady('Auth');
+      });
 
-    return () => clearTimeout(timeout);
+    // Hard fallback
+    const t = setTimeout(() => {
+      console.log('Fallback timeout fired');
+      onReady('Auth');
+    }, 3000);
+    return () => clearTimeout(t);
   }, []);
 
+  return (
+    <View style={styles.splash}>
+      <Text style={styles.title}>Northern Lakes{'\n'}Watch</Text>
+      <Text style={styles.sub}>Satellite-based lake monitoring</Text>
+      <ActivityIndicator color="#fff" size="large" style={{ marginTop: 40 }} />
+    </View>
+  );
+}
+
+export default function App() {
+  const [initialRoute, setInitialRoute] = useState(null);
+
   if (!initialRoute) {
-    return (
-      <View style={styles.splash}>
-        <Text style={styles.title}>Northern Lakes{'\n'}Watch</Text>
-        <Text style={styles.sub}>Satellite-based lake monitoring</Text>
-        <ActivityIndicator color="#fff" size="large" style={{ marginTop: 40 }} />
-      </View>
-    );
+    return <SplashScreen onReady={setInitialRoute} />;
   }
 
   return (
