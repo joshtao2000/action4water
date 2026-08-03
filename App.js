@@ -27,6 +27,7 @@ export default function App() {
     (async () => {
       try {
         const email = await AsyncStorage.getItem('user_email');
+        console.log('AsyncStorage email:', email);
         if (email) {
           fetch(`${API_URL}/app-login`, {
             method: 'POST',
