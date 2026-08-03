@@ -76,7 +76,7 @@ def send_report():
             return jsonify({"error": "User email is required."}), 400
 
         body = f"""
-FIELD OBSERVATION REPORT — contact@action4water.org
+FIELD OBSERVATION REPORT from {user_email}
 
 Location:          {location}
 Date/Time:         {datetime_str}
@@ -94,8 +94,8 @@ Sent via Northern Lakes Watch mobile app
 
         def build_msg(to, subject, include_photo):
             m = MIMEMultipart()
-            m["From"] = f"Northern Lakes Watch <{GMAIL_USER}>"
-            m["Reply-To"] = "contact@action4water.org"
+            m["From"] = f"Field Observation Report <{GMAIL_USER}>"
+            m["Reply-To"] = user_email
             m["To"] = to
             m["Subject"] = subject
             m.attach(MIMEText(body, "plain"))
