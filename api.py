@@ -76,7 +76,7 @@ def send_report():
             return jsonify({"error": "User email is required."}), 400
 
         body = f"""
-FIELD OBSERVATION REPORT — Action4Water
+FIELD OBSERVATION REPORT — contact@action4water.org
 
 Location:          {location}
 Date/Time:         {datetime_str}
@@ -89,13 +89,13 @@ Description:
 {description}
 
 ---
-Submitted by: {user_email}
 Sent via Northern Lakes Watch mobile app
         """
 
         def build_msg(to, subject, include_photo):
             m = MIMEMultipart()
-            m["From"] = f"Action4Water <{GMAIL_USER}>"
+            m["From"] = f"Northern Lakes Watch <{GMAIL_USER}>"
+            m["Reply-To"] = "contact@action4water.org"
             m["To"] = to
             m["Subject"] = subject
             m.attach(MIMEText(body, "plain"))
@@ -109,16 +109,6 @@ Sent via Northern Lakes Watch mobile app
                     pass
             return m
 
-        # Send confirmation to user
-        msg_user = build_msg(
-            user_email,
-            "Your field report has been submitted — Action4Water",
-            True
-        )
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(GMAIL_USER, GMAIL_PASSWORD)
-            server.sendmail(GMAIL_USER, user_email, msg_user.as_string())
-
         # Send report to recipient
         if recipient_email:
             msg_rec = build_msg(
@@ -129,6 +119,16 @@ Sent via Northern Lakes Watch mobile app
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(GMAIL_USER, GMAIL_PASSWORD)
                 server.sendmail(GMAIL_USER, recipient_email, msg_rec.as_string())
+
+        # Send internal copy to contact@action4water.org
+        msg_internal = build_msg(
+            TO_EMAIL,
+            f"[Field Report] {water_body or community} — {observation}",
+            True
+        )
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(GMAIL_USER, GMAIL_PASSWORD)
+            server.sendmail(GMAIL_USER, TO_EMAIL, msg_internal.as_string())
 
         return jsonify({"success": True}), 200
 
