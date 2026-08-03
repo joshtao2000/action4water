@@ -67,8 +67,6 @@ def send_report():
         datetime_str    = data.get("datetime", "Unknown")
         community       = data.get("community", "Unknown")
         water_body      = data.get("water_body", "Not specified")
-        observation     = data.get("observation", "Not specified")
-        severity        = data.get("severity", "Not specified")
         description     = data.get("description", "No description provided.")
         photo_base64    = data.get("photo_base64", None)
 
@@ -82,8 +80,6 @@ Location:          {location}
 Date/Time:         {datetime_str}
 Nearest community: {community}
 Water body:        {water_body}
-Observation type:  {observation}
-Severity:          {severity}
 
 Description:
 {description}
@@ -123,7 +119,7 @@ Sent via Northern Lakes Watch mobile app
         # Send internal copy to contact@action4water.org
         msg_internal = build_msg(
             TO_EMAIL,
-            f"[Field Report] {water_body or community} — {observation}",
+            f"[Field Report] {water_body or community}",
             True
         )
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
