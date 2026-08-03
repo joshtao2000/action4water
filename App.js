@@ -18,7 +18,15 @@ const API_URL = 'https://northern-lakes-api.onrender.com';
 
 function SplashScreen({ onReady }) {
   useEffect(() => {
-    console.log('SplashScreen useEffect firing');
+    let resolved = false;
+
+    const resolve = (route) => {
+      if (!resolved) {
+        resolved = true;
+        onReady(route);
+      }
+    };
+
     AsyncStorage.getItem('user_email')
       .then(email => {
         console.log('Got email:', email);
@@ -28,21 +36,17 @@ function SplashScreen({ onReady }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
           }).catch(() => {});
-          onReady('Map');
+          resolve('Map');
         } else {
-          onReady('Auth');
+          resolve('Auth');
         }
       })
       .catch(e => {
         console.log('AsyncStorage error:', e);
-        onReady('Auth');
+        resolve('Auth');
       });
 
-    // Hard fallback
-    const t = setTimeout(() => {
-      console.log('Fallback timeout fired');
-      onReady('Auth');
-    }, 3000);
+    const t = setTimeout(() => resolve('Auth'), 3000);
     return () => clearTimeout(t);
   }, []);
 
