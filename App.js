@@ -31,6 +31,7 @@ function SplashScreen({ onReady }) {
       .then(email => {
         console.log('Got email:', email);
         if (email) {
+          console.log('Calling API...');
           fetch(`${API_URL}/app-login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
